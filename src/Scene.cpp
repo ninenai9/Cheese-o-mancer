@@ -677,14 +677,7 @@ void Scene::UnloadLevel1() {
 
 	// Clear enemies list
 	enemies.clear();
-	if (heartTexture != nullptr) {
-		Engine::GetInstance().textures->UnLoad(heartTexture);
-		heartTexture = nullptr;
-	}
-	if (helpTexture != nullptr) {
-		Engine::GetInstance().textures->UnLoad(helpTexture);
-		helpTexture = nullptr;
-	}
+	heartTexture = nullptr;
 	// Clean up map and entities
 	Engine::GetInstance().map->CleanUp();
 	Engine::GetInstance().entityManager->CleanUp();
@@ -855,11 +848,6 @@ void Scene::UnloadLevel2() {
 	uiManager->CleanUp();
 
 	player.reset();
-
-	if (heartTexture != nullptr) {
-		Engine::GetInstance().textures->UnLoad(heartTexture);
-		heartTexture = nullptr;
-	}
 
 	Engine::GetInstance().map->CleanUp();
 	Engine::GetInstance().entityManager->CleanUp();

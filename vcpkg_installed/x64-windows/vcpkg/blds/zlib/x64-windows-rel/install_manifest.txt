@@ -1,4 +1,0 @@
-C:/Users/usuari/Documents/GitHub/PlatformGame/vcpkg_installed/x64-windows/vcpkg/pkgs/zlib_x64-windows/lib/zlib.lib
-C:/Users/usuari/Documents/GitHub/PlatformGame/vcpkg_installed/x64-windows/vcpkg/pkgs/zlib_x64-windows/bin/zlib1.dll
-C:/Users/usuari/Documents/GitHub/PlatformGame/vcpkg_installed/x64-windows/vcpkg/pkgs/zlib_x64-windows/include/zconf.h
-C:/Users/usuari/Documents/GitHub/PlatformGame/vcpkg_installed/x64-windows/vcpkg/pkgs/zlib_x64-windows/include/zlib.h

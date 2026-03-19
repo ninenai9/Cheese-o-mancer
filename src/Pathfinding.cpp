@@ -2,7 +2,6 @@
 #include "Engine.h"
 #include "Textures.h"
 #include "Map.h"
-#include "tracy/Tracy.hpp"
 #include "Render.h"
 #include "Scene.h"
 
@@ -160,7 +159,7 @@ bool Pathfinding::IsWalkable(int x, int y) {
 }
 
 void Pathfinding::PropagateBFS() {
-    ZoneScoped;
+
     // L11 TODO 4: Check if we have reach a destination
     bool foundDestination = false;
     if (!frontier.empty()) {

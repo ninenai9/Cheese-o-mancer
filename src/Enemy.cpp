@@ -2,7 +2,6 @@
 #include "Engine.h"
 #include "Textures.h"
 #include "Audio.h"
-#include "tracy/Tracy.hpp"
 #include "Input.h"
 #include "Render.h"
 #include "Scene.h"
@@ -75,8 +74,6 @@ bool Enemy::Start() {
 
 bool Enemy::Update(float dt)
 {
-	ZoneScoped;
-
 	if (!Engine::GetInstance().render->IsOnScreenWorldRect(position.getX(), position.getY(), (float)texW, (float)texH, 0))
 		return true;
 	if(toDelete) {

@@ -116,11 +116,6 @@ bool Render::PostUpdate()
 bool Render::CleanUp()
 {
 	LOG("Destroying SDL render");
-	if (font != nullptr) {
-		TTF_CloseFont(font);
-		font = nullptr;
-	}
-	TTF_Quit();
 	SDL_DestroyRenderer(renderer);
 	return true;
 }

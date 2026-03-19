@@ -171,21 +171,3 @@ Abi: 8ba6b887abfdaa6ea062fa1f0c1805674fc1d43a1a3486e7ef48deb1191a7391
 Description: A library for rendering TrueType fonts with SDL
 Status: install ok installed
 
-Package: tracy
-Version: 0.11.1
-Port-Version: 2
-Depends: vcpkg-cmake, vcpkg-cmake-config
-Architecture: x64-windows
-Multi-Arch: same
-Abi: 26b5dee3f168605051c033e35c03daac8108bb4937fa5409245739ea21ecc62b
-Description: A real time, nanosecond resolution, remote telemetry, hybrid frame and sampling profiler for games and other applications.
-Default-Features: crash-handler
-Status: install ok installed
-
-Package: tracy
-Feature: crash-handler
-Architecture: x64-windows
-Multi-Arch: same
-Description: Enable crash handler
-Status: install ok installed
-

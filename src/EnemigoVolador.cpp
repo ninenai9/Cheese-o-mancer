@@ -2,7 +2,6 @@
 #include "Engine.h"
 #include "Textures.h"
 #include "Audio.h"
-#include "tracy/Tracy.hpp"
 #include "Input.h"
 #include "Render.h"
 #include "Scene.h"
@@ -73,8 +72,6 @@ bool EnemigoVolador::Start() {
 
 bool EnemigoVolador::Update(float dt)
 {
-    ZoneScoped;
-   
     if (toDelete)
         return true;
     bool isPaused = Engine::GetInstance().scene->isPaused;
@@ -154,8 +151,7 @@ void EnemigoVolador::Move() {
     }
 
     Vector2D nextTile = pathfinding->pathTiles.front();
-    Vector2D nextWorld = Engine::GetInstance().map->MapToWorld(nextTile.getX() - 16, nextTile.getY() + 16);
-
+    Vector2D nextWorld = Engine::GetInstance().map->MapToWorld(nextTile.getX(), nextTile.getY());
 
     Vector2D playerPos = Engine::GetInstance().scene->GetPlayerPosition();
 

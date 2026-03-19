@@ -13,7 +13,6 @@
         "png"
       ]
     },
-    "sdl3-ttf",
-    "tracy"
+    "sdl3-ttf"
   ]
 }

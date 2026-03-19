@@ -1,8 +1,0 @@
-Package: sdl3-ttf
-Version: 3.2.2
-Port-Version: 1
-Depends: freetype, sdl3, vcpkg-cmake, vcpkg-cmake-config
-Architecture: x64-windows
-Multi-Arch: same
-Abi: 8ba6b887abfdaa6ea062fa1f0c1805674fc1d43a1a3486e7ef48deb1191a7391
-Description: A library for rendering TrueType fonts with SDL

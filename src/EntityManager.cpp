@@ -1,5 +1,4 @@
 #include "EntityManager.h"
-#include "tracy/Tracy.hpp"
 #include "Player.h"
 #include "Engine.h"
 #include "Textures.h"
@@ -129,7 +128,6 @@ void EntityManager::AddEntity(std::shared_ptr<Entity> entity)
 
 bool EntityManager::Update(float dt)
 {
-	ZoneScoped;
 	bool ret = true;
 	for(const auto entity : entities)
 	{

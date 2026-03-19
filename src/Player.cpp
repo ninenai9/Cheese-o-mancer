@@ -7,7 +7,6 @@
 #include "Scene.h"
 #include "Item.h"
 #include "Log.h"
-#include "tracy/Tracy.hpp"
 #include "Physics.h"
 #include "EntityManager.h"
 #include "Map.h"
@@ -73,7 +72,6 @@ bool Player:: isPlayerProtectedquestion() {
 }
 bool Player::Update(float dt)
 {
-	ZoneScoped;
 	bool isPaused = Engine::GetInstance().scene->isPaused;
 	const SDL_Rect& animFrame = anims.GetCurrentFrame();
 	if (!isPaused) {

@@ -1,6 +1,5 @@
 
 #include "Engine.h"
-#include "tracy/Tracy.hpp"
 #include "Render.h"
 #include "Textures.h"
 #include "Map.h"
@@ -46,7 +45,6 @@ bool Map::Start() {
 
 bool Map::Update(float dt)
 {
-    ZoneScoped;
     bool ret = true;
     if (mapLoaded) {
         // L07 TODO 5: Prepare the loop to draw all tiles in a layer + DrawTexture()
@@ -108,9 +106,6 @@ bool Map::CleanUp()
 
     // L06: TODO 2: Make sure you clean up any memory allocated from tilesets/map
     for (const auto& tileset : mapData.tilesets) {
-        if (tileset->texture != nullptr) {
-            Engine::GetInstance().textures->UnLoad(tileset->texture);
-        }
         delete tileset;
     }
     mapData.tilesets.clear();
@@ -118,10 +113,6 @@ bool Map::CleanUp()
     // L07 TODO 2: clean up all layer data
     for (const auto& layer : mapData.layers)
     {
-        for (auto& prop : layer->properties.propertyList) {
-            delete prop;
-        }
-        layer->properties.propertyList.clear();
         delete layer;
     }
     mapData.layers.clear();
@@ -143,7 +134,6 @@ bool Map::CleanUp()
     }
     mapBodies.clear();
     killedEnemies.clear();
-    mapFileXML.reset();
     return true;
 }
 

@@ -79,7 +79,6 @@ F6  -->  Load the previous state
 - **New Debug options :**
   - **F2 Start second level**
 - **Boss final battle added**
-- **Fixed pathfinding and body deletion**
 
 ## 📚 Official Documentation
 - **SDL3 Documentation**: [SDL3 Wiki](https://wiki.libsdl.org/SDL3)
