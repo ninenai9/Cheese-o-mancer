@@ -89,7 +89,11 @@ function get_latest_versions()
         sdl3_image = {
             repo = "libsdl-org/SDL_image",
             fallback = "3.0.0"
-        }
+        },
+	sdl3_ttf = {
+    	    repo = "libsdl-org/SDL_ttf",
+    	    fallback = "3.0.0"
+	}
     }
     
     local versions = {}
@@ -275,6 +279,65 @@ function check_sdl3_image()
     os.chdir("../")
 end
 
+function check_sdl3_ttf()
+    os.chdir("external")
+    
+    local sdl3_ttf_version = "3.0.0"
+    local sdl3_ttf_folder = "SDL3_ttf-" .. sdl3_ttf_version
+    local sdl3_ttf_zip = "SDL3_ttf-devel-" .. sdl3_ttf_version .. "-VC.zip"
+    
+    if(os.isdir("SDL3_ttf") == false) then
+        if(not os.isfile(sdl3_ttf_zip)) then
+            print("SDL3_ttf v" .. sdl3_ttf_version .. " not found, downloading...")
+            local download_url = "https://github.com/libsdl-org/SDL_ttf/releases/download/release-" 
+                .. sdl3_ttf_version .. "/" .. sdl3_ttf_zip
+
+            http.download(download_url, sdl3_ttf_zip, {
+                progress = download_progress,
+                headers = { "From: Premake", "Referer: Premake" }
+            })
+        end
+
+        print("Unzipping SDL3_ttf...")
+        zip.extract(sdl3_ttf_zip, os.getcwd())
+
+        if os.isdir(sdl3_ttf_folder) then
+            os.rename(sdl3_ttf_folder, "SDL3_ttf")
+        end
+
+        os.remove(sdl3_ttf_zip)
+    else
+        print("SDL3_ttf already exists")
+    end
+
+    
+    print("Checking SDL3_ttf structure...")
+
+    local wrong_lib_path = "SDL3_ttf/include/SDL3_ttf/SDL3_ttf.lib"
+    local correct_lib_dir = "SDL3_ttf/lib/x64"
+    local correct_lib_path = correct_lib_dir .. "/SDL3_ttf.lib"
+
+    if os.isfile(wrong_lib_path) then
+        print("Fixing misplaced SDL3_ttf.lib...")
+
+        -- Crear carpetas si no existen
+        if not os.isdir("SDL3_ttf/lib") then
+            os.mkdir("SDL3_ttf/lib")
+        end
+
+        if not os.isdir(correct_lib_dir) then
+            os.mkdir(correct_lib_dir)
+        end
+
+        -- Mover el .lib
+        os.rename(wrong_lib_path, correct_lib_path)
+
+        print("Moved SDL3_ttf.lib to lib/x64/")
+    end
+
+    os.chdir("../")
+end
+
 function check_libpng()
     os.chdir("external")
     
@@ -337,6 +400,9 @@ function build_externals()
     if downloadSDL3Image and not os.isdir("external/SDL3_image") then
         all_exist = false
     end
+    if downloadSDL3TTF and not os.isdir("external/SDL3_ttf") then
+    	all_exist = false
+    end
     if downloadLibPNG and not os.isdir("external/libpng") then
         all_exist = false
     end
@@ -356,6 +422,7 @@ function build_externals()
     check_libjpeg_turbo()
     check_pugixml()
     check_sdl3_image()
+    check_sdl3_ttf()
     if (downloadLibPNG) then
         check_libpng()
     end
@@ -398,6 +465,9 @@ pugixml_dir = "external/pugixml"
 
 downloadSDL3Image = true
 sdl3_image_dir = "external/SDL3_image"
+
+downloadSDL3TTF = true
+sdl3_ttf_dir = "external/SDL3_ttf"
 
 downloadLibPNG = true
 libpng_dir = "external/libpng"
@@ -479,6 +549,7 @@ end
         includedirs { libjpeg_turbo_dir .. "/include" }
         includedirs { pugixml_dir .. "/src" }
         includedirs { sdl3_image_dir .. "/include" }
+	includedirs { sdl3_ttf_dir .. "/include" }
         includedirs { libpng_dir .. "/include" }
 
         cdialect "C17"
@@ -488,7 +559,7 @@ end
         filter "action:vs*"
             defines{"_WINSOCK_DEPRECATED_NO_WARNINGS", "_CRT_SECURE_NO_WARNINGS"}
             dependson {"box2d", "pugixml"}
-            links {"box2d", "pugixml", "SDL3", "SDL3_image", "jpeg", "libpng"}
+            links {"box2d", "pugixml", "SDL3", "SDL3_image", "SDL3_ttf", "jpeg", "libpng"}
             characterset ("Unicode")
 
         filter "system:windows"
@@ -497,21 +568,23 @@ end
             
             -- SDL3 x64 específic
             filter { "system:windows", "platforms:x64" }
-                libdirs { "../bin/%{cfg.buildcfg}", sdl3_dir .. "/lib/x64", sdl3_image_dir .. "/lib/x64", libjpeg_turbo_dir .. "/lib", libpng_dir .. "/lib" }
+                libdirs { "../bin/%{cfg.buildcfg}", sdl3_dir .. "/lib/x64", sdl3_image_dir .. "/lib/x64", sdl3_ttf_dir .. "/lib/x64", libjpeg_turbo_dir .. "/lib", libpng_dir .. "/lib" }
                 postbuildcommands {
                     -- Copy DLLs using xcopy with proper quoting for paths with spaces
                     'xcopy /Y /D "$(SolutionDir)build\\external\\SDL3\\lib\\x64\\SDL3.dll" "$(SolutionDir)bin\\%{cfg.buildcfg}\\" 2>nul || exit 0',
                     'xcopy /Y /D "$(SolutionDir)build\\external\\SDL3_image\\lib\\x64\\SDL3_image.dll" "$(SolutionDir)bin\\%{cfg.buildcfg}\\" 2>nul || exit 0',
-                    'xcopy /Y /D "$(SolutionDir)build\\external\\libjpeg-turbo\\bin\\jpeg62.dll" "$(SolutionDir)bin\\%{cfg.buildcfg}\\" 2>nul || exit 0'
+                    'xcopy /Y /D "$(SolutionDir)build\\external\\libjpeg-turbo\\bin\\jpeg62.dll" "$(SolutionDir)bin\\%{cfg.buildcfg}\\" 2>nul || exit 0',
+		    'xcopy /Y /D "$(SolutionDir)build\\external\\SDL3_ttf\\lib\\x64\\SDL3_ttf.dll" "$(SolutionDir)bin\\%{cfg.buildcfg}\\" 2>nul || exit 0'
                 }
                 
             -- SDL3 x86 específic
             filter { "system:windows", "platforms:x86" }
-                libdirs { "../bin/%{cfg.buildcfg}", sdl3_dir .. "/lib/x86", sdl3_image_dir .. "/lib/x86", libjpeg_turbo_dir .. "/lib", libpng_dir .. "/lib" }
+                libdirs { "../bin/%{cfg.buildcfg}", sdl3_dir .. "/lib/x86", sdl3_image_dir .. "/lib/x86", sdl3_ttf_dir .. "/lib/x86", libjpeg_turbo_dir .. "/lib", libpng_dir .. "/lib" }
                 postbuildcommands {
                     -- Copy DLLs using xcopy with proper quoting for paths with spaces
                     'xcopy /Y /D "$(SolutionDir)build\\external\\SDL3\\lib\\x86\\SDL3.dll" "$(SolutionDir)bin\\%{cfg.buildcfg}\\" 2>nul || exit 0',
-                    'xcopy /Y /D "$(SolutionDir)build\\external\\SDL3_image\\lib\\x86\\SDL3_image.dll" "$(SolutionDir)bin\\%{cfg.buildcfg)\\" 2>nul || exit 0',
+                    'xcopy /Y /D "$(SolutionDir)build\\external\\SDL3_image\\lib\\x86\\SDL3_image.dll" "$(SolutionDir)bin\\%{cfg.buildcfg}\\" 2>nul || exit 0',
+		    'xcopy /Y /D "$(SolutionDir)build\\external\\SDL3_ttf\\lib\\x86\\SDL3_ttf.dll" "$(SolutionDir)bin\\%{cfg.buildcfg}\\" 2>nul || exit 0',
                     'xcopy /Y /D "$(SolutionDir)build\\external\\libjpeg-turbo\\bin\\jpeg62.dll" "$(SolutionDir)bin\\%{cfg.buildcfg}\\" 2>nul || exit 0'
                 }
 
