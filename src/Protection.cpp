@@ -40,7 +40,7 @@ bool Protection::Start()
 	texW = 32;
 	texH = 32;
 
-	if (pbody == nullptr) {
+	/*if (pbody == nullptr) {
 		position.setX(xInicial);
 		position.setY(yInicial);
 		pbody = Engine::GetInstance().physics->CreateRectangleSensor(
@@ -59,7 +59,7 @@ bool Protection::Start()
 
 
 
-	}
+	}*/
 
 
 

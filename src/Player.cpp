@@ -52,7 +52,7 @@ bool Player::Start() {
 	// L08 TODO 5: Add physics to the player - initialize physics body
 	texW = 256;
 	texH = 384;
-	pbody = Engine::GetInstance().physics->CreateCircle((int)position.getX(), (int)position.getY(), texW / 2.5, bodyType::DYNAMIC);
+	pbody = Engine::GetInstance().physics->CreateRectangle(position.getX(),position.getY(),texW,texH, bodyType::DYNAMIC);
 
 	// L08 TODO 6: Assign player class (using "this") to the listener of the pbody. This makes the Physics module to call the OnCollision method
 	pbody->listener = this;
@@ -370,18 +370,20 @@ void Player::Draw(float dt) {
 
 	
 	
-	const SDL_Rect& animFrame = anims.GetCurrentFrame();
+	/*const SDL_Rect& animFrame = anims.GetCurrentFrame();
 	
-	anims.Update(dt);
+	anims.Update(dt);*/
 
 	int x, y;
 	pbody->GetPosition(x, y);
 	position.setX((float)x);
 	position.setY((float)y);
 
-	SDL_FlipMode flip = facingLeft ? SDL_FLIP_HORIZONTAL : SDL_FLIP_NONE; 
+	
+	Engine::GetInstance().render->DrawTexture(texture, x - texW/2, y - texH/2, 0, 1, 0, 0, 0, SDL_FLIP_NONE);
+	/*SDL_FlipMode flip = facingLeft ? SDL_FLIP_HORIZONTAL : SDL_FLIP_NONE; 
 
-	Engine::GetInstance().render->DrawTexture(texture, x - texW / 2, y - texH / 2, &animFrame, 1.0f, 0.0, INT_MAX, INT_MAX, flip);
+	Engine::GetInstance().render->DrawTexture(texture, x - texW / 2, y - texH / 2, &animFrame, 1.0f, 0.0, INT_MAX, INT_MAX, flip);*/
 }
 
 Vector2D Player::GetPosition() {
