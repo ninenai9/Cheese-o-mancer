@@ -47,11 +47,11 @@ bool Player::Start() {
 	anims.SetCurrent("idle");
 
 	//L03: TODO 2: Initialize Player parameters
-	texture = Engine::GetInstance().textures->Load("Assets/Textures/ghost-export.png");
+	texture = Engine::GetInstance().textures->Load("Assets/Textures/a.png");
 
 	// L08 TODO 5: Add physics to the player - initialize physics body
-	texW = 32;
-	texH = 32;
+	texW = 256;
+	texH = 384;
 	pbody = Engine::GetInstance().physics->CreateCircle((int)position.getX(), (int)position.getY(), texW / 2.5, bodyType::DYNAMIC);
 
 	// L08 TODO 6: Assign player class (using "this") to the listener of the pbody. This makes the Physics module to call the OnCollision method
@@ -140,7 +140,7 @@ void Player :: UpdateFireballs(float dt) {
 		}
 	}
 }
-void Player :: CameraRender(){
+void Player::CameraRender() {
 	Vector2D mapSize = Engine::GetInstance().map->GetMapSizeInPixels();
 	float limitLeft = Engine::GetInstance().render->camera.w / 4;
 	float limitRight = mapSize.getX() - Engine::GetInstance().render->camera.w;
@@ -161,7 +161,7 @@ void Player :: CameraRender(){
 	else if (position.getX() > mapSize.getX() - Engine::GetInstance().render->camera.w / 4) {
 		Engine::GetInstance().render->camera.x = 3 * Engine::GetInstance().render->camera.w / 4 - mapSize.getX();
 	}
-	else { Engine::GetInstance().render->camera.x = (int)(-position.getX() + Engine::GetInstance().render->camera.w / 2); }
+	else { Engine::GetInstance().render->camera.x = (int)(-position.getX() + 1280 / 2); }
 
 	float limitUp = Engine::GetInstance().render->camera.h / 4;
 	float limitDown = (3 * Engine::GetInstance().render->camera.h / 4) - mapSize.getY();
@@ -176,7 +176,7 @@ void Player :: CameraRender(){
 
 	}
 
-	else { Engine::GetInstance().render->camera.y = (int)(-position.getY() + Engine::GetInstance().render->camera.h / 2); }
+	else { Engine::GetInstance().render->camera.y = (int)(-position.getY() + 720 / 2); }
 }
 
 void Player::GetPhysicsValues() {
