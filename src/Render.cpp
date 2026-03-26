@@ -29,7 +29,7 @@ bool Render::Awake()
 	LOG("Create SDL rendering context");
 	bool ret = true;
 
-	int scale = Engine::GetInstance().window->GetScale();
+	int scale = Engine::GetInstance().window->GetScale() / 6;
 	SDL_Window* window = Engine::GetInstance().window->window;
 
 	//L05 TODO 5 - Load the configuration of the Render module

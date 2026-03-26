@@ -492,6 +492,7 @@ MapLayer* Map::GetNavigationLayer() {
                             player = std::dynamic_pointer_cast<Player>(Engine::GetInstance().entityManager->CreateEntity(EntityType::PLAYER));
                             player->position = Vector2D(x, y);
                             player->Start();
+                            LOG("Player created.");
                         }
                         //If the player already exists, just set its position
                         

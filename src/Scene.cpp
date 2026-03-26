@@ -565,7 +565,7 @@ void Scene::LoadLevel1() {
 	Engine::GetInstance().audio->PlayMusic("Assets/Audio/Music/soundtrack.wav");
 
 	// Load Map
-	Engine::GetInstance().map->Load("Assets/Maps/", "queralt.tmx");
+	Engine::GetInstance().map->Load("Assets/Maps/", "MapTemplate.tmx"); //(original) "queralt.tmx"
 
 	// Load Entities from map
 	Engine::GetInstance().map->LoadEntities(player, enemies);
