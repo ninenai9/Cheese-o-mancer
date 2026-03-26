@@ -84,7 +84,7 @@ PhysBody* Physics::CreateRectangle(int x, int y, int width, int height, bodyType
     b2BodyDef def = b2DefaultBodyDef();
     def.type = ToB2Type(type);
     def.position = { PIXEL_TO_METERS(x), PIXEL_TO_METERS(y) };
-
+    def.fixedRotation = true;
     b2BodyId b = b2CreateBody(world, &def);
 
     b2Polygon box = b2MakeBox(PIXEL_TO_METERS(width) * 0.5f, PIXEL_TO_METERS(height) * 0.5f);

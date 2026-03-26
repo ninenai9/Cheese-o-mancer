@@ -1606,7 +1606,7 @@
   <object id="10" x="33.3333" y="512.121" width="1151.52" height="103.03"/>
  </objectgroup>
  <objectgroup id="8" name="Entities">
-  <object id="12" name="Player" type="Player" x="351.152" y="301.333">
+  <object id="12" name="Player" type="Player" x="286.152" y="73.333">
    <point/>
   </object>
  </objectgroup>

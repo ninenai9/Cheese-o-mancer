@@ -53,7 +53,7 @@ bool Player::Start() {
 	texW = 256;
 	texH = 384;
 	pbody = Engine::GetInstance().physics->CreateRectangle(position.getX(),position.getY(),texW,texH, bodyType::DYNAMIC);
-
+	
 	// L08 TODO 6: Assign player class (using "this") to the listener of the pbody. This makes the Physics module to call the OnCollision method
 	pbody->listener = this;
 
@@ -117,7 +117,6 @@ bool Player::Update(float dt)
 		UpdateFireballs(dt);
 	}
 		
-	
 	
 	return true;
 }
