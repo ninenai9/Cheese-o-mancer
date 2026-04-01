@@ -132,11 +132,9 @@ void Player::CameraRender() {
 	float limitRight = mapSize.getX() - Engine::GetInstance().render->camera.w;
 
 	if (Engine::GetInstance().input->GetKey(SDL_SCANCODE_F10) == KEY_DOWN) {
-
 		godMode = !godMode;
 		if (godMode) { b2Body_SetGravityScale(pbody->body, 0); }
 		else { b2Body_SetGravityScale(pbody->body, 1); }
-
 	}
 
 	if (position.getX() < Engine::GetInstance().render->camera.w / 4) {
@@ -145,7 +143,7 @@ void Player::CameraRender() {
 	else if (position.getX() > mapSize.getX() - Engine::GetInstance().render->camera.w / 4) {
 		Engine::GetInstance().render->camera.x = 3 * Engine::GetInstance().render->camera.w / 4 - mapSize.getX();
 	}
-	else { Engine::GetInstance().render->camera.x = (int)(-position.getX() + 1280 / 2); }
+	else { Engine::GetInstance().render->camera.x = (int)(-position.getX() + 1920 / 2); }
 
 	float limitUp = Engine::GetInstance().render->camera.h / 4;
 	float limitDown = (3 * Engine::GetInstance().render->camera.h / 4) - mapSize.getY();
@@ -157,7 +155,7 @@ void Player::CameraRender() {
 		int x = 9;
 		Engine::GetInstance().render->camera.y = limitDown;
 	}
-	else { Engine::GetInstance().render->camera.y = (int)(-position.getY() + 720 / 2); }
+	else { Engine::GetInstance().render->camera.y = (int)(-position.getY() + 2000 / 2); }
 }
 
 void Player::GetPhysicsValues() {

@@ -243,10 +243,10 @@ bool Map::Load(std::string path, std::string fileName)//
             ColliderType type = ColliderType::DANGER;
             bool isSensor = false;
 
-            if (objectGroup->name == "suelo") {
+            if (objectGroup->name == "Floor") {
                 type = ColliderType::PLATFORM;
             }
-            else if (objectGroup->name == "paredes") {
+            else if (objectGroup->name == "Walls") {
                 type = ColliderType::PARED;
             }
             else if (objectGroup->name == "spikes") {
