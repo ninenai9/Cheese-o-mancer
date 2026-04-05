@@ -27,11 +27,11 @@ bool EnemigoVolador::Start() {
 
     // load
     std::unordered_map<int, std::string> aliases = { {0,"idle"} };
-    anims.LoadFromTSX("Assets/Textures/FuegoEnemigo.tsx", aliases);
+    anims.LoadFromTSX("Assets/Textures/PREV/FuegoEnemigo.tsx", aliases);
     anims.SetCurrent("idle");
-    enemyDeathFx = Engine::GetInstance().audio->LoadFx("Assets/Audio/Fx/enemy_death.wav");
+    enemyDeathFx = Engine::GetInstance().audio->LoadFx("Assets/Audio/Fx/PREV/enemy_death.wav");
     //Initialize Enemy parameters
-    texture = Engine::GetInstance().textures->Load("Assets/Textures/FuegoEnemigo.png");
+    texture = Engine::GetInstance().textures->Load("Assets/Textures/PREV/FuegoEnemigo.png");
 
     //Add physics - initialize physics body
     texW = 32;

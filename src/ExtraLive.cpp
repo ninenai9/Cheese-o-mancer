@@ -26,7 +26,7 @@ bool ExtraLive::Start() {
 	
 
 	//Initialize Enemy parameters
-	texture = Engine::GetInstance().textures->Load("Assets/Textures/ExtraLive.png");
+	texture = Engine::GetInstance().textures->Load("Assets/Textures/PREV/ExtraLive.png");
 
 	
 	// L08 TODO 4: Add a physics to an item - initialize the physics body

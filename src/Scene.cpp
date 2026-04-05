@@ -405,8 +405,8 @@ void Scene::UnloadCurrentScene() {
 
 void Scene::LoadMainMenu() {
 
-	Engine::GetInstance().audio->PlayMusic("Assets/Audio/Music/soundtrack.wav");
-	introTexture = Engine::GetInstance().textures->Load("Assets/Screens/IntroScreen.png");
+	Engine::GetInstance().audio->PlayMusic("Assets/Audio/Music/PREV/soundtrack.wav");
+	introTexture = Engine::GetInstance().textures->Load("Assets/Screens/PREV/IntroScreen.png");
 	// Instantiate a UIButton in the Scene
 	
 	//Botón START
@@ -562,15 +562,15 @@ void Scene::HandleMainMenuUIEvents(UIElement* uiElement)
 
 void Scene::LoadLevel1() {
 
-	Engine::GetInstance().audio->PlayMusic("Assets/Audio/Music/soundtrack.wav");
+	Engine::GetInstance().audio->PlayMusic("Assets/Audio/Music/PREV/soundtrack.wav");
 
 	// Load Map
-	Engine::GetInstance().map->Load("Assets/Maps/", "MapTemplate.tmx"); //(original) "queralt.tmx"
+	Engine::GetInstance().map->Load("Assets/Maps/", "TEST_map_LV1_startRoom_01.tmx"); //(original) "queralt.tmx"
 
 	// Load Entities from map
 	Engine::GetInstance().map->LoadEntities(player, enemies);
 
-	heartTexture = Engine::GetInstance().textures->Load("Assets/Textures/heart4.png");
+	heartTexture = Engine::GetInstance().textures->Load("Assets/Textures/PREV/heart4.png");
 	isPaused = false;   
 	CreatePauseUI();
 
@@ -595,7 +595,7 @@ void Scene::LoadLevel1() {
 	item->Start();
 
 	// Textura de ayuda
-	helpTexture = Engine::GetInstance().textures->Load("Assets/textures/HELP.png");
+	helpTexture = Engine::GetInstance().textures->Load("Assets/textures/PREV/HELP.png");
 }
 
 void Scene::UpdateLevel1(float dt) {
@@ -754,14 +754,14 @@ void  Scene::PostUpdateLevel1() {
 
 void Scene::LoadLevel2() {
 
-	Engine::GetInstance().audio->PlayMusic("Assets/Audio/Music/level2music.wav");
+	Engine::GetInstance().audio->PlayMusic("Assets/Audio/Music/PREV/level2music.wav");
 
 	isPaused = false;   
 	CreatePauseUI();
 	
-	heartTexture = Engine::GetInstance().textures->Load("Assets/Textures/heart4.png");
+	heartTexture = Engine::GetInstance().textures->Load("Assets/Textures/PREV/heart4.png");
 	//Call the function to load the map. 
-	Engine::GetInstance().map->Load("Assets/Maps/", "level2.tmx");
+	Engine::GetInstance().map->Load("Assets/Maps/PREV/", "level2.tmx");
 
 	//Call the function to load entities from the map
 	Engine::GetInstance().map->LoadEntities(player, enemies);
@@ -799,7 +799,7 @@ void Scene::UpdateLevel2(float dt) {
 
 			auto boss = std::static_pointer_cast<FinalBoss>(entity);
 			if(boss->PlayerClose && !boss->isMusic) {
-				Engine::GetInstance().audio->PlayMusic("assets/audio/music/boss_music.wav");
+				Engine::GetInstance().audio->PlayMusic("assets/audio/music/PREV/boss_music.wav");
 				boss->isMusic = true;
 			}
 			if (boss->isdead) {
@@ -860,16 +860,16 @@ void Scene::UnloadLevel2() {
 
 void Scene::LoadGameOver() {
 	LOG("Loading Game Over Screen");
-	Engine::GetInstance().audio->PlayMusic("Assets/Audio/Music/losemusic.wav");
-	loseTexture = Engine::GetInstance().textures->Load("Assets/Screens/lose-win-screen.png");
+	Engine::GetInstance().audio->PlayMusic("Assets/Audio/Music/PREV/losemusic.wav");
+	loseTexture = Engine::GetInstance().textures->Load("Assets/Screens/PREV/lose-win-screen.png");
 
 	std::unordered_map<int, std::string> aliases;
 	aliases[4] = "play";
 
-	loseAnimSet.LoadFromTSX("Assets/Maps/lose.tsx", aliases);
+	loseAnimSet.LoadFromTSX("Assets/Maps/PREV/lose.tsx", aliases);
 
 	loseAnimSet.SetCurrent("play");
-	 Engine::GetInstance().audio->PlayMusic("Assets/Audio/Music/losemusic.wav");
+	 Engine::GetInstance().audio->PlayMusic("Assets/Audio/Music/PREV/losemusic.wav");
 
 	SDL_Rect btnPos = { 1000, 650, 250, 50 };
 	Engine::GetInstance().uiManager->CreateUIElement(UIElementType::BUTTON, 9, "BACK TO TITLE ->", btnPos, this);
@@ -905,12 +905,12 @@ void Scene::HandleGameOverUIEvents(UIElement* uiElement)
 
 void Scene::LoadWinScreen() {
 	LOG("Loading Win Screen");
-	Engine::GetInstance().audio->PlayMusic("Assets/Audio/Music/winmusic.wav");
-	loseTexture = Engine::GetInstance().textures->Load("Assets/Screens/lose-win-screen.png");
+	Engine::GetInstance().audio->PlayMusic("Assets/Audio/Music/PREV/winmusic.wav");
+	loseTexture = Engine::GetInstance().textures->Load("Assets/Screens/PREV/lose-win-screen.png");
 
 	std::unordered_map<int, std::string> aliases;
 	aliases[0] = "win"; 
-	loseAnimSet.LoadFromTSX("Assets/Maps/lose.tsx", aliases);
+	loseAnimSet.LoadFromTSX("Assets/Maps/PREV/lose.tsx", aliases);
 	loseAnimSet.SetCurrent("win");
 
 	SDL_Rect btnPos = { 1000, 650, 250, 50 };
@@ -1045,13 +1045,13 @@ void Scene::SaveLevel()
 void Scene::LoadFinalWin() {
 	LOG("Loading Final Win Screen");
 
-	loseTexture = Engine::GetInstance().textures->Load("Assets/Screens/lose-win-screen.png");
+	loseTexture = Engine::GetInstance().textures->Load("Assets/Screens/PREV/lose-win-screen.png");
 	std::unordered_map<int, std::string> aliases;
 	aliases[0] = "win";
-	loseAnimSet.LoadFromTSX("Assets/Maps/lose.tsx", aliases);
+	loseAnimSet.LoadFromTSX("Assets/Maps/PREV/lose.tsx", aliases);
 	loseAnimSet.SetCurrent("win");
 
-	Engine::GetInstance().audio->PlayMusic("Assets/Audio/Music/win_sound.wav"); //poner audio
+	Engine::GetInstance().audio->PlayMusic("Assets/Audio/Music/PREV/win_sound.wav"); //poner audio
 	SDL_Rect btnPos = { 950, 650, 250, 50 };
 	Engine::GetInstance().uiManager->CreateUIElement(UIElementType::BUTTON, 13, "GO TO TITLE ->", btnPos, this);
 }
@@ -1078,7 +1078,7 @@ void Scene::HandleFinalWinUIEvents(UIElement* uiElement) {
 
 void Scene::LoadIntro() {
 	LOG("Loading Intro Screen");
-	introTexture = Engine::GetInstance().textures->Load("Assets/Screens/logo.png");
+	introTexture = Engine::GetInstance().textures->Load("Assets/Screens/PREV/logo.png");
 }
 
 void Scene::UpdateIntro(float dt) {

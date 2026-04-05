@@ -32,8 +32,8 @@ bool Protection::Start()
 	// initialize textures
 
 	std::unordered_map<int, std::string> aliases = { {0, "idle"} };
-	anims.LoadFromTSX("Assets/Textures/heart_prtection_anim.tsx", aliases);
-	texture = Engine::GetInstance().textures->Load("Assets/Textures/heart_prtection.png");
+	anims.LoadFromTSX("Assets/Textures/PREV/heart_prtection_anim.tsx", aliases);
+	texture = Engine::GetInstance().textures->Load("Assets/Textures/PREV/heart_prtection.png");
 	anims.SetCurrent("idle");
 
 

@@ -29,11 +29,11 @@ bool Coins::Awake() {
 bool Coins::Start() {
 
 	std::unordered_map<int, std::string> aliases = { {0, "idle"} };
-	anims.LoadFromTSX("Assets/Textures/coin_sprite.tsx", aliases);
-	coinPickupFx = Engine::GetInstance().audio->LoadFx("Assets/Audio/Fx/coin-collision-sound-342335.wav");
+	anims.LoadFromTSX("Assets/Textures/PREV/coin_sprite.tsx", aliases);
+	coinPickupFx = Engine::GetInstance().audio->LoadFx("Assets/Audio/Fx/PREV/coin-collision-sound-342335.wav");
 	anims.SetCurrent("idle");
 
-	texture = Engine::GetInstance().textures->Load("Assets/Textures/coin_sprite.png");
+	texture = Engine::GetInstance().textures->Load("Assets/Textures/PREV/coin_sprite.png");
 
 	
 		texW = 32;

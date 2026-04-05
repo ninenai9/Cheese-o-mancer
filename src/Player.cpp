@@ -34,15 +34,15 @@ bool Player::Awake() {
 bool Player::Start() {
 
 	// load
-	movefx = Engine::GetInstance().audio->LoadFx("Assets/Audio/Fx/player_walk.wav");
-	jumpfx = Engine::GetInstance().audio->LoadFx("Assets/Audio/Fx/salto.wav");
-	checkpointfx = Engine::GetInstance().audio->LoadFx("Assets/Audio/Fx/checkpoint.wav");
-	deathfx = Engine::GetInstance().audio->LoadFx("Assets/Audio/Fx/player_death.wav");
+	movefx = Engine::GetInstance().audio->LoadFx("Assets/Audio/Fx/PREV/player_walk.wav");
+	jumpfx = Engine::GetInstance().audio->LoadFx("Assets/Audio/Fx/PREV/salto.wav");
+	checkpointfx = Engine::GetInstance().audio->LoadFx("Assets/Audio/Fx/PREV/checkpoint.wav");
+	deathfx = Engine::GetInstance().audio->LoadFx("Assets/Audio/Fx/PREV/player_death.wav");
 	std::unordered_map<int, std::string> aliases = { {15,"idle"},{0,"move"},{6,"jump"},{18,"death"}, {24, "walk_protected"}, {30, "jump_protected"}, {39, "idle_protected"}};
 	float limitUp = Engine::GetInstance().render->camera.h / 4;
 	Engine::GetInstance().render->camera.y = limitUp;
 
-	anims.LoadFromTSX("Assets/Textures/ghost-export.tsx", aliases);
+	anims.LoadFromTSX("Assets/Textures/PREV/ghost-export.tsx", aliases);
 	anims.SetCurrent("idle");
 
 	//L03: TODO 2: Initialize Player parameters
@@ -60,7 +60,7 @@ bool Player::Start() {
 	pbody->ctype = ColliderType::PLAYER;
 
 	//initialize audio effect
-	pickCoinFxId = Engine::GetInstance().audio->LoadFx("Assets/Audio/Fx/coin-collision-sound-342335.wav");
+	pickCoinFxId = Engine::GetInstance().audio->LoadFx("Assets/Audio/Fx/PREV/coin-collision-sound-342335.wav");
 
 	respawnPosition = { PIXEL_TO_METERS(position.getX()), PIXEL_TO_METERS(position.getY()) };
 

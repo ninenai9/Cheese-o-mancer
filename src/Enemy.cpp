@@ -28,14 +28,14 @@ bool Enemy::Awake() {
 bool Enemy::Start() {
 
 	// load
-	enemyfx = Engine::GetInstance().audio->LoadFx("Assets/Audio/Fx/enemigo_walk.wav");
-	enemyDeathFx = Engine::GetInstance().audio->LoadFx("Assets/Audio/Fx/enemy_death.wav");
+	enemyfx = Engine::GetInstance().audio->LoadFx("Assets/Audio/Fx/PREV/enemigo_walk.wav");
+	enemyDeathFx = Engine::GetInstance().audio->LoadFx("Assets/Audio/Fx/PREV/enemy_death.wav");
 	std::unordered_map<int, std::string> aliases = { {0,"idle"}, {3, "move"}};
-	anims.LoadFromTSX("Assets/Textures/Enemy-Recovered.tsx", aliases);
+	anims.LoadFromTSX("Assets/Textures/PREV/Enemy-Recovered.tsx", aliases);
 	anims.SetCurrent("idle");
 
 	//Initialize Player parameters
-	texture = Engine::GetInstance().textures->Load("Assets/Textures/Enemy-Recovered.png");
+	texture = Engine::GetInstance().textures->Load("Assets/Textures/PREV/Enemy-Recovered.png");
 	//Add physics to the enemy - initialize physics body
 	texW = 32;
 	texH = 32;

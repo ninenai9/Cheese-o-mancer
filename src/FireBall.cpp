@@ -27,7 +27,7 @@ bool FireBall::Awake() {
 }
 bool FireBall::Start() {
 
-	texture = Engine::GetInstance().textures->Load("Assets/Textures/fuego.png");
+	texture = Engine::GetInstance().textures->Load("Assets/Textures/PREV/fuego.png");
 
 	texW = 9;
 	texH = 9;
@@ -76,7 +76,7 @@ bool FireBall::Start() {
 	pbody->ctype = ColliderType::FIREBALL;
 
 	// APLICA LA DIRECCIÓN ELEGIDA
-	 fireballfx = Engine::GetInstance().audio->LoadFx("Assets/Audio/Fx/fireball.wav");
+	 fireballfx = Engine::GetInstance().audio->LoadFx("Assets/Audio/Fx/PREV/fireball.wav");
 	Engine::GetInstance().audio->PlayFx(fireballfx);
 	Engine::GetInstance().physics->SetLinearVelocity(pbody, velocity.x, velocity.y);
 	storedVelocity = velocity;

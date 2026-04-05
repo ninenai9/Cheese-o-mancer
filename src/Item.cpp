@@ -23,11 +23,11 @@ bool Item::Awake() {
 bool Item::Start() {
 
 	std::unordered_map<int, std::string> aliases = { {0,"idle"} };
-	anims.LoadFromTSX("Assets/Textures/coin_anim.tsx", aliases);
+	anims.LoadFromTSX("Assets/Textures/PREV/coin_anim.tsx", aliases);
 	anims.SetCurrent("idle");
 
 	//Initialize Enemy parameters
-	texture = Engine::GetInstance().textures->Load("Assets/Textures/coin_sprite.png");
+	texture = Engine::GetInstance().textures->Load("Assets/Textures/PREV/coin_sprite.png");
 
 	
 	// L08 TODO 4: Add a physics to an item - initialize the physics body

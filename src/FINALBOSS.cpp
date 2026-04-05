@@ -70,14 +70,14 @@ void FinalBoss::Attack() {
 bool FinalBoss::Start() {
 
 	// load
-	enemyfx = Engine::GetInstance().audio->LoadFx("Assets/Audio/Fx/enemigo_walk.wav");
-	enemyDeathFx = Engine::GetInstance().audio->LoadFx("Assets/Audio/Fx/enemy_death.wav");
+	enemyfx = Engine::GetInstance().audio->LoadFx("Assets/Audio/Fx/PREV/enemigo_walk.wav");
+	enemyDeathFx = Engine::GetInstance().audio->LoadFx("Assets/Audio/Fx/PREV/enemy_death.wav");
 	std::unordered_map<int, std::string> aliases = { {2, "move"}, {5, "move_second"}, {8,"idle"}, {11,"idle_second"}, {12,"attack"}, {15,"attack_second"}, };
-	anims.LoadFromTSX("Assets/Textures/FinalBoss.tsx", aliases);
+	anims.LoadFromTSX("Assets/Textures/PREV/FinalBoss.tsx", aliases);
 	anims.SetCurrent("idle");
 
 	//Initialize Player parameters
-	texture = Engine::GetInstance().textures->Load("Assets/Textures/FinalBoss.png");
+	texture = Engine::GetInstance().textures->Load("Assets/Textures/PREV/FinalBoss.png");
 	//Add physics to the enemy - initialize physics body
 	texW = 32;
 	texH = 50;

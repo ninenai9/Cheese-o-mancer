@@ -13,9 +13,9 @@ Checkpoint::Checkpoint() : Entity(EntityType::CHECKPOINT)
 Checkpoint::~Checkpoint() {}
 
 bool Checkpoint::Start() {
-	texture = Engine::GetInstance().textures->Load("Assets/Textures/checkpoint-Sheet.png");
+	texture = Engine::GetInstance().textures->Load("Assets/Textures/PREV/checkpoint-Sheet.png");
 
-	fxId = Engine::GetInstance().audio->LoadFx("Assets/Audio/Fx/checkpoint.wav");
+	fxId = Engine::GetInstance().audio->LoadFx("Assets/Audio/Fx/PREV/checkpoint.wav");
 
 
 	idleAnim.AddFrame({ 0, 0, 90, 90 }, 100);
