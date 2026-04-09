@@ -49,7 +49,7 @@ bool Player::Start() {
 	texture = Engine::GetInstance().textures->Load("Assets/Textures/placeholder_Jester.png");
 
 	// L08 TODO 5: Add physics to the player - initialize physics body
-	texW = 256;
+	texW = 215;
 	texH = 384;
 	pbody = Engine::GetInstance().physics->CreateRectangle(position.getX(),position.getY(),texW,texH, bodyType::DYNAMIC);
 	

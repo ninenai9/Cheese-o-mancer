@@ -7,7 +7,7 @@
 #define M_PI 3.14159265358979323846
 #endif
 
-const float ZOOM_LEVEL = 0.48f;
+const float ZOOM_LEVEL = 0.30f;
 
 Render::Render() : Module()
 {
