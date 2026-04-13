@@ -58,9 +58,42 @@ bool Enemy::Start() {
 
 bool Enemy::Update(float dt)
 {
-	PerformPathfinding();
+	repathTimer++;
+
 	GetPhysicsValues();
-	Move();
+	// Solo actuamos si el jugador está en el rango
+	if (CalculateDistance()) {
+
+		Vector2D currentPlayerTile = Engine::GetInstance().scene->GetPlayerPosition();
+
+		if ((currentPlayerTile.getX() != lastPlayerTile.getX() ||
+			currentPlayerTile.getY() != lastPlayerTile.getY()) && repathTimer >= repathDelay) {
+
+			int ex, ey;
+			pbody->GetPosition(ex, ey);
+			Vector2D enemyTilePos = Engine::GetInstance().map->WorldToMap(ex, ey);
+
+			pathfinding->ResetPath(enemyTilePos);
+			
+			repathTimer = 0;
+			lastPlayerTile = currentPlayerTile;
+		}
+
+		pathfinding->PropagateAStar(SQUARED);
+		// 2. Ejecutar el movimiento
+		Move();
+
+	}
+	else {
+		// Si el jugador sale del rango, el enemigo se detiene
+		int ex, ey;
+		pbody->GetPosition(ex, ey);
+		Vector2D enemyTilePos = Engine::GetInstance().map->WorldToMap(ex, ey);
+		pathfinding->ResetPath(enemyTilePos);
+	}
+
+	
+	
 	ApplyPhysics();
 	Draw(dt);
 
@@ -135,11 +168,36 @@ void Enemy::PerformPathfinding() {
 void Enemy::GetPhysicsValues() {
 	// Read current velocity
 	velocity = Engine::GetInstance().physics->GetLinearVelocity(pbody);
-	velocity = { 0, velocity.y };
+	
 }
 
 void Enemy::Move() {
 
+	// Si no hay camino o ya llegamos, detenemos el movimiento horizontal
+	if (pathfinding->pathTiles.empty()) {
+
+		return;
+	}
+
+	// Obtenemos el siguiente paso del path (el último elemento añadido a la lista)
+	Vector2D nextTile = pathfinding->pathTiles.front();
+	Vector2D nextPosWorld = Engine::GetInstance().map->MapToWorld((int)nextTile.getX(), (int)nextTile.getY());
+
+	// Posición actual del enemigo
+	int ex, ey;
+	pbody->GetPosition(ex, ey);
+
+	float speed = 5.0f; // Ajusta según la escala de tu mundo Box2D
+
+	// Lógica de movimiento horizontal hacia el siguiente tile
+	float threshold = 5.0f;
+
+	if (ex < nextPosWorld.getX() - threshold)
+		velocity.x = speed;
+	else if (ex > nextPosWorld.getX() + threshold)
+		velocity.x = -speed;
+	else
+		velocity.x = 0;
 	// Move 
 }
 
@@ -193,4 +251,34 @@ void Enemy::OnCollision(PhysBody* physA, PhysBody* physB) {
 void Enemy::OnCollisionEnd(PhysBody* physA, PhysBody* physB)
 {
 
+}
+
+bool Enemy::CalculateDistance() {
+	// 1. Posición del Enemigo (Píxeles)
+    int ex, ey;
+    pbody->GetPosition(ex, ey); 
+	Vector2D enemyWorld = Engine::GetInstance().map->WorldToMap(ex, ey);
+    // 2. Posición del Jugador (Tiles -> Convertir a Píxeles)
+    // ¡OJO! Asegúrate de que GetPlayerPosition() devuelve coordenadas de TILE (ej. 15, 10)
+    Vector2D pTile = Engine::GetInstance().scene->GetPlayerPosition();
+    Vector2D pWorld = Engine::GetInstance().map->WorldToMap((int)pTile.getX(), (int)pTile.getY());
+
+    // 3. LOG DE CONTROL: Mira esto en la consola para ver cuál de los dos falla
+    // printf("DEBUG: Enemigo en (%d, %d) | Jugador en (%f, %f)\n", ex, ey, pWorld.getX(), pWorld.getY());
+
+    // 4. Calcular diferencia
+    float dx = (float)enemyWorld.getX() - pWorld.getX();
+    float dy = (float)enemyWorld.getY() - pWorld.getY();
+
+    // 5. Pitágoras
+    float distance = sqrtf((dx * dx) + (dy * dy));
+
+    // Si el número sigue siendo 900000, es que ex/ey o pWorld.getX() valen algo absurdo
+	printf("Player raw: (%f, %f)\n", pTile.getX(), pTile.getY());
+	printf("Enemy raw: (%d, %d)\n", ex, ey);
+	printf("Enemy world: (%f, %f)\n", enemyWorld.getX(), enemyWorld.getY());
+	printf("Player world: (%f, %f)\n", pWorld.getX(), pWorld.getY());
+
+    float detectionRange = 400.0f;
+    return (distance < detectionRange);
 }
