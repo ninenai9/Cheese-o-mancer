@@ -1,3 +1,8 @@
+
+// =====================
+// PLAYER IMPLEMENTATION
+// =====================
+
 #include "Player.h"
 #include "Engine.h"
 #include "Textures.h"
@@ -13,8 +18,15 @@
 #include "Protection.h"
 #include "Scene.h"
 #include "Window.h"
+
+// Variables estaticas del jugador
 int Player::score = 0;
 bool Player:: IsPlayerProtected = false;
+
+// =====================
+// CONSTRUCTOR / DESTRUCTOR
+// =====================
+
 Player::Player() : Entity(EntityType::PLAYER)
 {
 	name = "Player";
@@ -24,6 +36,10 @@ Player::Player() : Entity(EntityType::PLAYER)
 Player::~Player() {
 
 }
+
+// =====================
+// CICLO DE VIDA
+// =====================
 
 bool Player::Awake() {
 
@@ -67,9 +83,7 @@ bool Player::Start() {
 
 	return true;
 }
-bool Player:: isPlayerProtectedquestion() {
-	return IsPlayerProtected;
-}
+
 bool Player::Update(float dt)
 {
 	bool isPaused = Engine::GetInstance().scene->isPaused;
@@ -114,52 +128,24 @@ bool Player::Update(float dt)
 	
 	return true;
 }
+
 void Player :: UpdateFireballs(float dt) {
 
-	for (auto it = fireballs.begin(); it != fireballs.end(); ) {
+	//for (auto it = fireballs.begin(); it != fireballs.end(); ) {
 
-		if ((*it)->toDelete) { //si se tiene que borrar la destruye
-			it = fireballs.erase(it);
-		}
-		else {
-			(*it)->Update(dt);
-			++it;
-		}
-	}
+	//	if ((*it)->toDelete) { //si se tiene que borrar la destruye
+	//		it = fireballs.erase(it);
+	//	}
+	//	else {
+	//		(*it)->Update(dt);
+	//		++it;
+	//	}
+	//}
 }
-void Player::CameraRender() {
-	Vector2D mapSize = Engine::GetInstance().map->GetMapSizeInPixels();
-	float limitLeft = Engine::GetInstance().render->camera.w / 4;
-	float limitRight = mapSize.getX() - Engine::GetInstance().render->camera.w;
-	int windowX;
-	int windowY;
-	Engine::GetInstance().window->GetWindowSize(windowX, windowY);
-	if (Engine::GetInstance().input->GetKey(SDL_SCANCODE_F10) == KEY_DOWN) {
-		godMode = !godMode;
-		if (godMode) { b2Body_SetGravityScale(pbody->body, 0); }
-		else { b2Body_SetGravityScale(pbody->body, 1); }
-	}
 
-	if (position.getX() < Engine::GetInstance().render->camera.w / 4) {
-		Engine::GetInstance().render->camera.x = limitLeft;
-	}
-	else if (position.getX() > mapSize.getX() - Engine::GetInstance().render->camera.w / 4) {
-		Engine::GetInstance().render->camera.x = 3 * Engine::GetInstance().render->camera.w / 4 - mapSize.getX();
-	}
-	else { Engine::GetInstance().render->camera.x = (int)(-position.getX() + windowX*1.5); }
-
-	float limitUp = Engine::GetInstance().render->camera.h / 4;
-	float limitDown = (3 * Engine::GetInstance().render->camera.h / 4) - mapSize.getY();
-
-	if (position.getY() < Engine::GetInstance().render->camera.h / 4) {
-		Engine::GetInstance().render->camera.y = limitUp;
-	}
-	else if (position.getY() > mapSize.getY() - Engine::GetInstance().render->camera.h / 4) {
-		int x = 9;
-		Engine::GetInstance().render->camera.y = limitDown;
-	}
-	else { Engine::GetInstance().render->camera.y = (int)(-position.getY() + windowY * 1.5); }
-}
+// =====================
+// MOVIMIENTO Y FISICAS
+// =====================
 
 void Player::GetPhysicsValues() {
 	// Read current velocity
@@ -268,8 +254,6 @@ void Player::Move() {
 
 }
 
-
-
 void Player::Jump() {
 	// This function can be used for more complex jump logic if needed
 	bool spacePressed = Engine::GetInstance().input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN;
@@ -322,15 +306,7 @@ void Player::Jump() {
 	}
 	
 }
-void Player::ThrowFireBall(Side side) {
 
-	std::shared_ptr<FireBall> fireball =std::dynamic_pointer_cast<FireBall>(Engine::GetInstance().entityManager->CreateEntity(EntityType::FIREBALL));
-	fireball->spawnPos = Vector2D(position.getX(), position.getY());
-	fireball->spawnSide = side;
-
-	fireball->Start();
-	fireballs.push_back(fireball);
-}
 void Player::ApplyPhysics() {
 	// Preserve vertical speed while jumping
 	if (isJumping == true) {
@@ -341,6 +317,10 @@ void Player::ApplyPhysics() {
 	// Apply velocity via helper
 	Engine::GetInstance().physics->SetLinearVelocity(pbody, velocity);
 }
+
+// =====================
+// RENDER Y CAMARA
+// =====================
 
 void Player::Draw(float dt) {
 
@@ -362,55 +342,45 @@ void Player::Draw(float dt) {
 	Engine::GetInstance().render->DrawTexture(texture, x - texW / 2, y - texH / 2, &animFrame, 1.0f, 0.0, INT_MAX, INT_MAX, flip);*/
 }
 
-Vector2D Player::GetPosition() {
-	int x, y;
-	pbody->GetPosition(x, y);
-	// Adjust for center
-	return Vector2D((float)x - texW / 2, (float)y - texH / 2);
-}
-bool Player::CleanUp()
-{
-	LOG("Cleanup player");
-	Engine::GetInstance().textures->UnLoad(texture);
-	if (pbody != nullptr) {
-		Engine::GetInstance().physics->DeletePhysBody(pbody);
-		pbody = nullptr;
+void Player::CameraRender() {
+
+	Vector2D mapSize = Engine::GetInstance().map->GetMapSizeInPixels();
+	float limitLeft = Engine::GetInstance().render->camera.w / 4;
+	float limitRight = mapSize.getX() - Engine::GetInstance().render->camera.w;
+	int windowX;
+	int windowY;
+	Engine::GetInstance().window->GetWindowSize(windowX, windowY);
+	if (Engine::GetInstance().input->GetKey(SDL_SCANCODE_F10) == KEY_DOWN) {
+		godMode = !godMode;
+		if (godMode) { b2Body_SetGravityScale(pbody->body, 0); }
+		else { b2Body_SetGravityScale(pbody->body, 1); }
 	}
-	return true;
-}
 
-void Player::SetPosition(Vector2D pos)
-{
-	
-	this->position = pos;
-
-	if (pbody != nullptr) {
-		int centerX = (int)pos.getX() + texW / 2;
-		int centerY = (int)pos.getY() + texH / 2;
-		pbody->SetPosition(centerX, centerY);
+	if (position.getX() < Engine::GetInstance().render->camera.w / 4) {
+		Engine::GetInstance().render->camera.x = limitLeft;
 	}
-}
-
-void Player::Reset()
-{
-	
-	b2Vec2 initialPos = respawnPosition;
-	b2Rot rotation = b2MakeRot(0.0f);
-	b2Body_SetTransform(pbody->body, initialPos, rotation);
-	Engine::GetInstance().physics->SetLinearVelocity(pbody, { 0.0f, 0.0f });
-	isdead = false;
-	isJumping = false;
-	isCollidedFloor = true;
-	firstJump = true;
+	else if (position.getX() > mapSize.getX() - Engine::GetInstance().render->camera.w / 4) {
+		Engine::GetInstance().render->camera.x = 3 * Engine::GetInstance().render->camera.w / 4 - mapSize.getX();
+	}
+	else { Engine::GetInstance().render->camera.x = (int)(-position.getX() + windowX * 1.5); }
 
 	float limitUp = Engine::GetInstance().render->camera.h / 4;
-	Engine::GetInstance().render->camera.y = limitUp;
-	IsProtected = false;
-	anims.SetCurrent("idle");
-	
+	float limitDown = (3 * Engine::GetInstance().render->camera.h / 4) - mapSize.getY();
+
+	if (position.getY() < Engine::GetInstance().render->camera.h / 4) {
+		Engine::GetInstance().render->camera.y = limitUp;
+	}
+	else if (position.getY() > mapSize.getY() - Engine::GetInstance().render->camera.h / 4) {
+		int x = 9;
+		Engine::GetInstance().render->camera.y = limitDown;
+	}
+	else { Engine::GetInstance().render->camera.y = (int)(-position.getY() + windowY * 1.5); }
 }
 
-// L08 TODO 6: Define OnCollision function for the player. 
+// =====================
+// COLISIONES
+// =====================
+
 void Player::OnCollision(PhysBody* physA, PhysBody* physB) {
 	switch (physB->ctype)
 	{
@@ -581,11 +551,11 @@ void Player::OnCollision(PhysBody* physA, PhysBody* physB) {
 			isdead = true;
 			isDeadDefinitive = true;
 		}
-	
-	
+
+
 	}
 	default:
-		
+
 		break;
 	}
 	LOG("Ammount of lives: %d", lives);
@@ -609,7 +579,7 @@ void Player::OnCollisionEnd(PhysBody* physA, PhysBody* physB)
 		LOG("End Collision PARED");
 		isCollidedWall = false;
 		break;
-	case ColliderType::SAVE: 
+	case ColliderType::SAVE:
 		LOG("End Collision SAVE");
 		break;
 	case ColliderType::FIREBALL:
@@ -622,13 +592,83 @@ void Player::OnCollisionEnd(PhysBody* physA, PhysBody* physB)
 	}
 }
 
+// =====================
+// UTILIDADES
+// =====================
+
+Vector2D Player::GetPosition() {
+	int x, y;
+	pbody->GetPosition(x, y);
+	// Adjust for center
+	return Vector2D((float)x - texW / 2, (float)y - texH / 2);
+}
+
+bool Player::CleanUp()
+{
+	LOG("Cleanup player");
+	Engine::GetInstance().textures->UnLoad(texture);
+	if (pbody != nullptr) {
+		Engine::GetInstance().physics->DeletePhysBody(pbody);
+		pbody = nullptr;
+	}
+	return true;
+}
+
+void Player::SetPosition(Vector2D pos)
+{
+	
+	this->position = pos;
+
+	if (pbody != nullptr) {
+		int centerX = (int)pos.getX() + texW / 2;
+		int centerY = (int)pos.getY() + texH / 2;
+		pbody->SetPosition(centerX, centerY);
+	}
+}
+
+void Player::Reset()
+{
+	
+	b2Vec2 initialPos = respawnPosition;
+	b2Rot rotation = b2MakeRot(0.0f);
+	b2Body_SetTransform(pbody->body, initialPos, rotation);
+	Engine::GetInstance().physics->SetLinearVelocity(pbody, { 0.0f, 0.0f });
+	isdead = false;
+	isJumping = false;
+	isCollidedFloor = true;
+	firstJump = true;
+
+	float limitUp = Engine::GetInstance().render->camera.h / 4;
+	Engine::GetInstance().render->camera.y = limitUp;
+	IsProtected = false;
+	anims.SetCurrent("idle");
+	
+}
+
+// L08 TODO 6: Define OnCollision function for the player. 
+
+
 bool Player::isDead()
 {
 	return isdead;
 }
 
-void Player :: AddPoints(int points)
+void Player::AddPoints(int points)
 {
 	Player::score += points;
 	LOG("Score: %d", Player::score);
+}
+
+bool Player::isPlayerProtectedquestion() {
+	return IsPlayerProtected;
+}
+
+void Player::ThrowFireBall(Side side) {
+
+	/*std::shared_ptr<FireBall> fireball =std::dynamic_pointer_cast<FireBall>(Engine::GetInstance().entityManager->CreateEntity(EntityType::FIREBALL));
+	fireball->spawnPos = Vector2D(position.getX(), position.getY());
+	fireball->spawnSide = side;
+
+	fireball->Start();
+	fireballs.push_back(fireball);*/
 }
