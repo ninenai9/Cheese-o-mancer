@@ -15,7 +15,8 @@ enum class EntityType
 	CHECKPOINT,
 	PROTECTION,
 	FINALBOSS,
-	EXTRALIVE
+	EXTRALIVE,
+	NPC
 	
 };
 

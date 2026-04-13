@@ -5,24 +5,25 @@
 #include <box2d/box2d.h>
 #include <SDL3/SDL.h>
 #include "Pathfinding.h"
+#include "Dialogue.h"
 
 struct SDL_Texture;
 
-class Dialogue 
+class NPC : public Entity
 {
 public:
-	Dialogue();
-	virtual ~Dialogue();
+	NPC(std::string name, SDL_Texture* texture, const char* tsxPath, Dialogue dialogue);
+	virtual ~NPC();
 
 	bool Awake();
 	bool Start();
 	bool Update(float dt);
 	bool CleanUp();
-
 	void OnCollision(PhysBody* physA, PhysBody* physB);
-	void NextDialogue();
 
 
+public:
+	bool isPicked = false;
 
 private:
 
@@ -30,21 +31,23 @@ private:
 	
 	void ApplyPhysics();
 	void Draw(float dt);
+	void Jump();
 	
 
 
 private:
-	//Vector de texturas
-	std::vector<SDL_Texture*> dialogue;
-	std::vector<SDL_Texture*> dialogueHelper;
+	SDL_Texture* texture;
+	AnimationSet anims;
+	PhysBody* pbody;
+	int texW, texH;
+	const char* tsxPath;
 
 public:
-	
+	int coinFx;
+	int coinPickupFx;
 	int xInicial;
 	int yInicial;	
-	int lenght = 0;
-	void AddDialogue(SDL_Texture* texture);
-	void BeginDialogue();
+	Dialogue dialogue;
 
-	bool hasStarted = false;
+	
 };

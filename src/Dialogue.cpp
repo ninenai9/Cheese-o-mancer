@@ -43,7 +43,7 @@ void Dialogue::Draw(float dt) {
 bool Dialogue::Update(float dt)
 {
 	if (!hasStarted) return true;
-
+	Draw(dt);
 	if (Engine::GetInstance().input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN) {
 	
 		NextDialogue();
@@ -53,6 +53,7 @@ bool Dialogue::Update(float dt)
 	return true;
 }
 void Dialogue::BeginDialogue() {
+	dialogueHelper = dialogue;
 
 	hasStarted = true;
 
@@ -76,10 +77,10 @@ void Dialogue::AddDialogue(SDL_Texture* texture) {
 bool Dialogue::CleanUp()
 {
 	LOG("Unloading Coin");
-	for (int i = lenght; i < lenght; i++) {
+
 		dialogue.clear();
 
-	}
+	
 	return true;
 }
 
