@@ -164,9 +164,9 @@ void Pathfinding::PropagateBFS() {
     bool foundDestination = false;
     if (!frontier.empty()) {
         Vector2D frontierTile = frontier.front();
-        Vector2D playerPosTile = Engine::GetInstance().scene->GetPlayerPosition();
-        /*Vector2D playerPosTile = Engine::GetInstance().map->WorldToMap((int)playerPos.getX(), (int)playerPos.getY());*/
-
+        Vector2D playerPos = Engine::GetInstance().scene->GetPlayerPosition();
+        Vector2D playerPosTile = Engine::GetInstance().map->WorldToMap((int)playerPos.getX(), (int)playerPos.getY());
+        printf("Posicion fronter: %f, %f | Posicion player: %f, %f\n", frontierTile.getX(), frontierTile.getY(), playerPosTile.getX(), playerPosTile.getY());
         if (frontierTile == playerPosTile) {
             foundDestination = true;
             // L12: TODO 2: When the destination is reach, call the function ComputePath
@@ -278,8 +278,8 @@ void Pathfinding::PropagateAStar(ASTAR_HEURISTICS heuristic) {
 
     // L13: TODO 2: Adapt Dijkstra algorithm for AStar. Consider the different heuristics
 
-    Vector2D playerPosTile = Engine::GetInstance().scene.get()->GetPlayerPosition();
-    /*Vector2D playerPosTile = Engine::GetInstance().map.get()->WorldToMap((int)playerPos.getX(), (int)playerPos.getY());*/
+    Vector2D playerPos = Engine::GetInstance().scene.get()->GetPlayerPosition();
+    Vector2D playerPosTile = Engine::GetInstance().map.get()->WorldToMap((int)playerPos.getX(), (int)playerPos.getY());
 
     bool foundDestination = false;
     if (frontierAStar.size() > 0) {

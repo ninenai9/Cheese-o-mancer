@@ -20,6 +20,7 @@ public:
 	bool CleanUp();
 	void OnCollision(PhysBody* physA, PhysBody* physB);
 	void OnCollisionEnd(PhysBody* physA, PhysBody* physB);
+	bool CalculateDistance();
 	void SetPosition(Vector2D pos);
 	Vector2D GetPosition();
 
@@ -37,7 +38,10 @@ public:
 	SDL_Texture* texture = NULL;
 	int texW, texH;
 	PhysBody* pbody;
-
+	float detectionRange = 500.0f;
+	Vector2D lastPlayerTile = { -1, -1 };
+	int repathTimer = 0;
+	int repathDelay = 100;
 private:
 	b2Vec2 velocity;
 	AnimationSet anims;
