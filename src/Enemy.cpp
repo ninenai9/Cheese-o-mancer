@@ -60,7 +60,7 @@ bool Enemy::Start() {
 	//Get the position of the enemy
 	Vector2D pos = GetPosition();
 	//Convert to tile coordinates
-	Vector2D tilePos = Engine::GetInstance().map->WorldToMap((int)pos.getX(), (int)pos.getY() + 1);
+	Vector2D tilePos = Engine::GetInstance().map->WorldToMap((int)pos.getX(), (int)pos.getY());
 	//Reset pathfinding
 	pathfinding->ResetPath(tilePos);
 
@@ -163,6 +163,7 @@ void Enemy::ApplyPhysics() {
 
 	// Apply velocity via helper
 	Engine::GetInstance().physics->SetLinearVelocity(pbody, velocity);
+	attackHitbox->SetPosition(GetPosition().getX() - offsetAttackHitboxX, GetPosition().getY() - offsetAttackHitboxY);
 }
 
 // =====================
@@ -205,6 +206,12 @@ void Enemy::OnCollision(PhysBody* physA, PhysBody* physB) {
 void Enemy::OnCollisionEnd(PhysBody* physA, PhysBody* physB)
 {
 
+}
+
+void Enemy::CreateAttackHitbox(int x, int y, int w, int h) {
+	attackHitbox = Engine::GetInstance().physics->CreateRectangleSensor(x, y, w, h, bodyType::KINEMATIC);
+	attackHitbox->ctype = ColliderType::ENEMY_ATTACK;
+	attackHitbox->listener = this;
 }
 
 // =====================

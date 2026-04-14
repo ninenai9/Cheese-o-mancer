@@ -35,6 +35,7 @@ enum class ColliderType {
     DANGER,
    PROTECTION,
     FIREBALL,
+    ENEMY_ATTACK,
     EXTRALIVE,
     FINALBOSS
     // ..

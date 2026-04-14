@@ -18,8 +18,11 @@ public:
 	bool Start();
 	virtual bool Update(float dt);
 	bool CleanUp();
-	void OnCollision(PhysBody* physA, PhysBody* physB);
-	void OnCollisionEnd(PhysBody* physA, PhysBody* physB);
+	virtual void OnCollision(PhysBody* physA, PhysBody* physB);
+	virtual void OnCollisionEnd(PhysBody* physA, PhysBody* physB);
+
+	void CreateAttackHitbox(int x, int y, int w, int h);
+	
 	float CalculateDistance();
 	void SetPosition(Vector2D pos);
 	Vector2D GetPosition();
@@ -51,8 +54,11 @@ public:
 	bool isboss = false;
 	int attackRange = 0;
 	float distanceToPlayer = 0.0f;
-private:
+	int offsetAttackHitboxX = 0;
+	int offsetAttackHitboxY = 0;
+protected:
 	b2Vec2 velocity;
 	AnimationSet anims;
 	std::shared_ptr<Pathfinding> pathfinding;
+	PhysBody* attackHitbox;
 };
