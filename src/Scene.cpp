@@ -787,7 +787,7 @@ void Scene::LoadLevel2() {
 	
 	heartTexture = Engine::GetInstance().textures->Load("Assets/Textures/PREV/heart4.png");
 	//Call the function to load the map. 
-	Engine::GetInstance().map->Load("Assets/Maps/", "TEST_map_LV1_pantryRoom_01.tmx");
+	Engine::GetInstance().map->Load("Assets/Maps/", "TEST_map_LV1_tortureRoom_02.tmx");
 
 	//Call the function to load entities from the map
 	Engine::GetInstance().map->LoadEntities(player, enemies);

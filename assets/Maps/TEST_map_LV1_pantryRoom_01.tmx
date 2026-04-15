@@ -4,6 +4,9 @@
   <image source="LV1_test_tileset.png" width="384" height="128"/>
  </tileset>
  <layer id="10" name="Map" width="86" height="52">
+  <properties>
+   <property name="Draw" type="bool" value="true"/>
+  </properties>
   <data>
    <tile/>
    <tile/>
