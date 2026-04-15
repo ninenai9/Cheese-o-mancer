@@ -74,9 +74,11 @@ bool Scene::Update(float dt)
 		break;
 	case SceneID::LEVEL1:
 		UpdateLevel1(dt);
+		ChangeToLvl2();
 		break;
 	case SceneID::LEVEL2:
 		UpdateLevel2(dt);
+		ChangeToLvl1();
 		break;
 
 	case SceneID::GAME_OVER:
@@ -556,6 +558,18 @@ void Scene::HandleMainMenuUIEvents(UIElement* uiElement)
 	}
 }
 
+void Scene::ChangeToLvl1() {
+	if (Engine::GetInstance().input->GetKey(SDL_SCANCODE_K) == KEY_DOWN)
+	{
+		ChangeScene(SceneID::LEVEL1);
+	}
+}
+void Scene::ChangeToLvl2() {
+	if (Engine::GetInstance().input->GetKey(SDL_SCANCODE_L) == KEY_DOWN)
+	{
+		ChangeScene(SceneID::LEVEL2);
+	}
+}
 // *********************************************
 // Level 1 functions
 // *********************************************

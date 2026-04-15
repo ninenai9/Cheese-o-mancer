@@ -76,6 +76,9 @@ private:
 	void UpdateIntro(float dt);
 	void UnloadIntro();
 
+	void ChangeToLvl1();
+	void ChangeToLvl2();
+
 	// L17 TODO 3: Define specific function for main menu scene: Load, Unload, Handle UI events
 	void LoadMainMenu();
 	void UnloadMainMenu();
