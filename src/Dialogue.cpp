@@ -67,7 +67,16 @@ void Dialogue:: NextDialogue() {
 	}
 	else {
 		hasStarted = false;
+		
 	}
+	HasEnded(hasStarted);
+}
+bool Dialogue:: HasEnded(bool name){
+
+	hasEnded = !name;
+	return hasEnded;
+
+
 }
 void Dialogue::AddDialogue(SDL_Texture* texture) {
 	dialogue.push_back(texture);

@@ -18,7 +18,8 @@ enum class EntityType
 	FINALBOSS,
 	EXTRALIVE,
 	RAT,
-	NPC
+	NPC,
+	HANDMAN
 	
 };
 

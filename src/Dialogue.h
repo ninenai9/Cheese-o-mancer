@@ -45,6 +45,8 @@ public:
 	int lenght = 0;
 	void AddDialogue(SDL_Texture* texture);
 	void BeginDialogue();
+	bool HasEnded(bool name);
 
+	bool hasEnded = false;
 	bool hasStarted = false;
 };

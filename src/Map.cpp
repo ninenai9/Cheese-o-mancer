@@ -18,6 +18,7 @@
 #include "Scene.h"
 #include "Verdugo.h"
 #include "Rat.h"
+#include "HANDMAN.h"
 
 Map::Map() : Module(), mapLoaded(false)
 {
@@ -537,6 +538,26 @@ MapLayer* Map::GetNavigationLayer() {
                         enemy->yInicial = (int)y;*/
                         rat->Start();
                         rat->mapID = id;
+
+                    }
+                    else if (entityType == "Handman") {
+                        std::shared_ptr<HANDMAN> Handman = std::dynamic_pointer_cast<HANDMAN>(Engine::GetInstance().entityManager->CreateEntity(EntityType::HANDMAN));
+
+                        Handman->position = Vector2D(x, y);
+                        /*enemy->xInicial = (int)x;
+                        enemy->yInicial = (int)y;*/
+                        Handman->Start();
+                        Handman->mapID = id;
+
+                    }
+                    else if (entityType == "NPC") {
+                        std::shared_ptr<NPC> Npc = std::dynamic_pointer_cast<NPC>(Engine::GetInstance().entityManager->CreateEntity(EntityType::NPC));
+
+                        Npc->position = Vector2D(x, y);
+                        /*enemy->xInicial = (int)x;
+                        enemy->yInicial = (int)y;*/
+                        Npc->Start();
+                        Npc->mapID = id;
 
                     }
                     else if (entityType == "EnemigoVolador") {

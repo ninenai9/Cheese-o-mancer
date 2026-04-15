@@ -124,7 +124,6 @@ private:
 	//Funciones Store
 	void CreateStoreLevel1();
 
-	void SetStore(bool store);
 
 	void HandleStoreUIEvents(UIElement* uiElement);
 private:
@@ -148,4 +147,6 @@ private:
 	SceneID currentScene = SceneID::MAIN_MENU;
 	SDL_Texture* loseTexture = nullptr;
 	AnimationSet loseAnimSet;
+	public:
+	void SetStore(bool store);
 };

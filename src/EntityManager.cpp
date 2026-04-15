@@ -1,5 +1,7 @@
 #include "EntityManager.h"
 #include "Player.h"
+#include "NPC.h"
+#include "Handman.h"
 #include "Engine.h"
 #include "Textures.h"
 #include "Scene.h"
@@ -113,6 +115,12 @@ std::shared_ptr<Entity> EntityManager::CreateEntity(EntityType type)
 		break;
 	case EntityType::RAT:
 		entity = std::make_shared<Rat>();
+		break;
+	case EntityType::HANDMAN:
+		entity = std::make_shared<HANDMAN>();
+		break;
+	case EntityType::NPC:
+		entity = std::make_shared<NPC>();
 		break;
 	default:
 		break;

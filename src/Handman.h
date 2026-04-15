@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Entity.h"
+#include "NPC.h"
 #include "Animation.h"
 #include <box2d/box2d.h>
 #include <SDL3/SDL.h>
@@ -9,11 +9,11 @@
 
 struct SDL_Texture;
 
-class NPC : public Entity
+class HANDMAN : public NPC
 {
 public:
-	NPC(std::string name, SDL_Texture* texture, const char* tsxPath, Dialogue dialogue, EntityType entity);
-	virtual ~NPC();
+	HANDMAN(Dialogue dialogueHandman, std::string name, SDL_Texture* texture, const char* tsxPath, Dialogue dialogue, Dialogue hasBought, Dialogue hasNotBought, EntityType entity);
+	virtual ~HANDMAN();
 
 	bool Awake();
 	bool Start();
@@ -47,7 +47,12 @@ public:
 	int coinPickupFx;
 	int xInicial;
 	int yInicial;	
-	Dialogue dialogue;
+	Dialogue dialogueHANDMAN;
+	Dialogue hasBought;
+	Dialogue hasNotBought;
+	bool hasBeenKilled = false;
+	bool wantsBuy = false;
+	bool isStoreOn = false;
 
 	
 };
