@@ -1,20 +1,20 @@
-﻿#include "Verdugo.h"
+﻿#include "Rat.h"
 #include "Engine.h"
 #include "Log.h"
 
-Verdugo::Verdugo() : Enemy()
+Rat::Rat() : Enemy()
 {
-    name = "Verdugo";
+    name = "Rat";
 }
 
-Verdugo::~Verdugo()
+Rat::~Rat()
 {
 }
 
-bool Verdugo::Start()
+bool Rat::Start()
 {
-    texW = 400;
-    texH = 400;
+    texW = 300;
+    texH = 100;
 	attackRange = 5;
     offsetAttackHitboxX = 40;
     offsetAttackHitboxY = -texH/2;
@@ -27,7 +27,7 @@ bool Verdugo::Start()
     return true;
 }
 
-void Verdugo::Attack()
+void Rat::Attack()
 {
 	isAttacking = true;
 	attackTimer = attackDuration;
@@ -35,7 +35,7 @@ void Verdugo::Attack()
 	LOG("Verdugo empieza ataque");
 }
 
-bool Verdugo::Update(float dt)
+bool Rat::Update(float dt)
 {
     repathTimer++;
 
@@ -75,7 +75,7 @@ bool Verdugo::Update(float dt)
     return true;
 }
 
-void Verdugo::UpdateAttack()
+void Rat::UpdateAttack()
 {
     if (!isAttacking) return;
 
@@ -117,7 +117,7 @@ void Verdugo::UpdateAttack()
     }
 }
 
-void Verdugo::OnCollision(PhysBody* physA, PhysBody* physB)
+void Rat::OnCollision(PhysBody* physA, PhysBody* physB)
 {
     // Solo actuar si la hitbox está activa
     if (!hitboxActive) return;
@@ -135,7 +135,7 @@ void Verdugo::OnCollision(PhysBody* physA, PhysBody* physB)
     }
 }
 
-void Verdugo::OnCollisionEnd(PhysBody* physA, PhysBody* physB)
+void Rat::OnCollisionEnd(PhysBody* physA, PhysBody* physB)
 {
     if (physA == attackHitbox && physB->ctype == ColliderType::PLAYER) {
         playerInHitbox = false;

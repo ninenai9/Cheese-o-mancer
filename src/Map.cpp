@@ -17,6 +17,7 @@
 #include "ExtraLive.h"
 #include "Scene.h"
 #include "Verdugo.h"
+#include "Rat.h"
 
 Map::Map() : Module(), mapLoaded(false)
 {
@@ -526,6 +527,16 @@ MapLayer* Map::GetNavigationLayer() {
                         enemy->yInicial = (int)y;*/
                         verdugo->Start();
                         verdugo->mapID = id;
+
+                    }
+                    else if (entityType == "Rat") {
+                        std::shared_ptr<Rat> rat = std::dynamic_pointer_cast<Rat>(Engine::GetInstance().entityManager->CreateEntity(EntityType::RAT));
+
+                        rat->position = Vector2D(x, y);
+                        /*enemy->xInicial = (int)x;
+                        enemy->yInicial = (int)y;*/
+                        rat->Start();
+                        rat->mapID = id;
 
                     }
                     else if (entityType == "EnemigoVolador") {

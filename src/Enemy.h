@@ -56,6 +56,7 @@ public:
 	float distanceToPlayer = 0.0f;
 	int offsetAttackHitboxX = 0;
 	int offsetAttackHitboxY = 0;
+	bool direction = false;
 protected:
 	b2Vec2 velocity;
 	AnimationSet anims;

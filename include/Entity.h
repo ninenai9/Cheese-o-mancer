@@ -17,6 +17,7 @@ enum class EntityType
 	PROTECTION,
 	FINALBOSS,
 	EXTRALIVE,
+	RAT,
 	NPC
 	
 };

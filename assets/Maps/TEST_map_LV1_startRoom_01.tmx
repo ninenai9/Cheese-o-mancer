@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.3.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="90" height="63" tilewidth="128" tileheight="128" infinite="0" nextlayerid="15" nextobjectid="293">
+<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="90" height="63" tilewidth="128" tileheight="128" infinite="0" nextlayerid="15" nextobjectid="294">
  <tileset firstgid="1" name="LV1_test_tileset" tilewidth="128" tileheight="128" tilecount="3" columns="3">
   <image source="LV1_test_tileset.png" width="384" height="128"/>
  </tileset>
@@ -5685,7 +5685,10 @@
   <object id="12" name="Player" type="Player" x="4791.12" y="5658.42">
    <point/>
   </object>
-  <object id="292" name="Verdugo" type="Verdugo" x="6456" y="5624">
+  <object id="292" name="Rat" type="Rat" x="6456" y="5624">
+   <point/>
+  </object>
+  <object id="293" name="Verdugo" type="Verdugo" x="7945.65" y="5736.54">
    <point/>
   </object>
  </objectgroup>

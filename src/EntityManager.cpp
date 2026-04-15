@@ -13,6 +13,7 @@
 #include "ExtraLive.h"
 #include "FinalBoss.h"
 #include "Verdugo.h"
+#include "Rat.h"
 
 EntityManager::EntityManager() : Module()
 {
@@ -109,6 +110,9 @@ std::shared_ptr<Entity> EntityManager::CreateEntity(EntityType type)
 		break;
 	case EntityType::VERDUGO:
 		entity = std::make_shared<Verdugo>();
+		break;
+	case EntityType::RAT:
+		entity = std::make_shared<Rat>();
 		break;
 	default:
 		break;
