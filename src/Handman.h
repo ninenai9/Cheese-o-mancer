@@ -13,6 +13,7 @@ class HANDMAN : public NPC
 {
 public:
 	HANDMAN(Dialogue dialogueHandman, std::string name, SDL_Texture* texture, const char* tsxPath, Dialogue dialogue, Dialogue hasBought, Dialogue hasNotBought, EntityType entity, Dialogue BeatBoss);
+	HANDMAN();
 	virtual ~HANDMAN();
 
 	bool Awake();

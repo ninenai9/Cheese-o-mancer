@@ -13,6 +13,7 @@ class NPC : public Entity
 {
 public:
 	NPC(std::string name, SDL_Texture* texture, const char* tsxPath, Dialogue dialogue, EntityType entity);
+	NPC();
 	virtual ~NPC();
 
 	bool Awake();

@@ -51,6 +51,7 @@ public:
 	int repathTimer = 0;
 	int repathDelay = 100;
 	char* texName = "";
+	char* spriteSheetName = "";
 	bool isboss = false;
 	int attackRange = 0;
 	float distanceToPlayer = 0.0f;

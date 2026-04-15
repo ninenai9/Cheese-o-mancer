@@ -46,6 +46,7 @@ bool Enemy::Start() {
 	//Initialize Player parameters
 	texture = Engine::GetInstance().textures->Load(texName);
 
+	anims.LoadFromTSX(spriteSheetName, aliases);
 	//Add physics to the enemy - initialize physics body
 	pbody = Engine::GetInstance().physics->CreateRectangle(position.getX(), position.getY(), texW, texH, bodyType::DYNAMIC);
 
@@ -172,8 +173,8 @@ void Enemy::ApplyPhysics() {
 
 void Enemy::Draw(float dt) {
 
-	//anims.Update(dt);
-	//const SDL_Rect& animFrame = anims.GetCurrentFrame();
+	/*anims.Update(dt);
+	const SDL_Rect& animFrame = anims.GetCurrentFrame();*/
 
 	//// Update render position using your PhysBody helper
 	int x, y;
@@ -184,8 +185,13 @@ void Enemy::Draw(float dt) {
 	// Draw pathfinding debug
 	pathfinding->DrawPath();
 
+	SDL_Rect sect = {0,0,texW,texH};
 	//Draw the player using the texture and the current animation frame
-	Engine::GetInstance().render->DrawTexture(texture, x - texW / 2, y - texH / 2, 0, 1, 0, 0, 0, SDL_FLIP_NONE);
+	Engine::GetInstance().render->DrawTexture(texture, x - texW / 2, y - texH / 2, &sect, 1, 0, 0, 0, SDL_FLIP_NONE);
+
+	//SDL_FlipMode flip = facingLeft ? SDL_FLIP_HORIZONTAL : SDL_FLIP_NONE;
+
+	/*Engine::GetInstance().render->DrawTexture(texture, x - texW / 2, y - texH / 2, &animFrame, 1.0f, 0.0, INT_MAX, INT_MAX, SDL_FLIP_NONE);*/
 }
 
 bool Enemy::CleanUp()

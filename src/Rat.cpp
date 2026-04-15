@@ -13,12 +13,13 @@ Rat::~Rat()
 
 bool Rat::Start()
 {
-    texW = 300;
-    texH = 100;
+    texW = 256;
+    texH = 256;
 	attackRange = 5;
     offsetAttackHitboxX = 40;
     offsetAttackHitboxY = -texH/2;
-    texName = "Assets/Textures/placeholder_Jester.png";
+    texName = "resources/spritesheets/Rata/Sprite_Rat_Fly_01.png";
+    spriteSheetName = "";
     Enemy::Start();
     CreateAttackHitbox(GetPosition().getX(),GetPosition().getY(), 70,200);
     

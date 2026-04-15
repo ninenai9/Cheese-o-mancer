@@ -19,6 +19,10 @@ NPC::NPC(std::string name, SDL_Texture* texture, const char *tsxPath, Dialogue d
 	pbody = nullptr;
 }
 
+NPC::NPC()
+{
+}
+
 NPC::~NPC() {
 	if (pbody != nullptr) {
 		Engine::GetInstance().physics->DeletePhysBody(pbody);

@@ -13,12 +13,13 @@ Verdugo::~Verdugo()
 
 bool Verdugo::Start()
 {
-    texW = 400;
-    texH = 400;
+    texW = 128*4;
+    texH = 128 * 4;
 	attackRange = 5;
     offsetAttackHitboxX = 40;
     offsetAttackHitboxY = -texH/2;
-    texName = "Assets/Textures/placeholder_Jester.png";
+    texName = "resources/spritesheets/Jailer/sprite_jailer_01.png";
+    spriteSheetName = "";
     Enemy::Start();
     CreateAttackHitbox(GetPosition().getX(),GetPosition().getY(), 70,200);
     

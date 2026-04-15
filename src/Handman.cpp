@@ -23,6 +23,11 @@ HANDMAN::HANDMAN(Dialogue dialogueHandman, std::string name, SDL_Texture* textur
 	this->BeatBoss = BeatBoss;
 }
 
+HANDMAN::HANDMAN() : NPC("", nullptr, "", Dialogue(), EntityType::UNKNOWN)
+{
+	pbody = nullptr;
+}
+
 HANDMAN::~HANDMAN() {
 	if (pbody != nullptr) {
 		Engine::GetInstance().physics->DeletePhysBody(pbody);
