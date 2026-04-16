@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <tileset version="1.10" tiledversion="1.11.2" name="2x3" tilewidth="256" tileheight="384" tilecount="30" columns="10">
- <image source="2x3.png" width="2562" height="1156"/>
+ <image source="j_2x3.png" width="2562" height="1156"/>
  <tile id="0">
   <properties>
    <property name="loop" type="bool" value="true"/>
