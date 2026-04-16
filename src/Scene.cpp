@@ -186,6 +186,73 @@ bool Scene::PostUpdate()
 			Engine::GetInstance().render->DrawTexture(helpTexture, 560, 300, NULL, 0.0f);
 		}
 		break;
+
+	case SceneID::LEVEL3:
+		Engine::GetInstance().map->DrawLayer("Map");
+		if (player != nullptr) {
+			if (heartTexture != nullptr) {
+				float w, h;
+				SDL_GetTextureSize(heartTexture, &w, &h);
+				int startX = 20;
+				int startY = 20;
+				int padding = 10;
+				for (int i = 0; i < player->lives; i++) {
+					float x = (float)(startX + i * (w + padding));
+					float y = (float)startY;
+					SDL_FRect destRect = { x, y, w, h };
+					SDL_RenderTexture(Engine::GetInstance().render->renderer, heartTexture, NULL, &destRect);
+				}
+			}
+			std::string scoreText = "Score: " + std::to_string(player->score);
+			Engine::GetInstance().render->DrawText(scoreText.c_str(), 1100, 30, 0, 0, { 255, 255, 255, 255 });
+
+			std::string timerText = "Time: " + std::to_string((int)levelTimer);
+			Engine::GetInstance().render->DrawText(timerText.c_str(), 1100, 70, 0, 0, { 255, 255, 255, 255 });
+		}
+	case SceneID::LEVEL4:
+		Engine::GetInstance().map->DrawLayer("Map");
+		if (player != nullptr) {
+			if (heartTexture != nullptr) {
+				float w, h;
+				SDL_GetTextureSize(heartTexture, &w, &h);
+				int startX = 20;
+				int startY = 20;
+				int padding = 10;
+				for (int i = 0; i < player->lives; i++) {
+					float x = (float)(startX + i * (w + padding));
+					float y = (float)startY;
+					SDL_FRect destRect = { x, y, w, h };
+					SDL_RenderTexture(Engine::GetInstance().render->renderer, heartTexture, NULL, &destRect);
+				}
+			}
+			std::string scoreText = "Score: " + std::to_string(player->score);
+			Engine::GetInstance().render->DrawText(scoreText.c_str(), 1100, 30, 0, 0, { 255, 255, 255, 255 });
+
+			std::string timerText = "Time: " + std::to_string((int)levelTimer);
+			Engine::GetInstance().render->DrawText(timerText.c_str(), 1100, 70, 0, 0, { 255, 255, 255, 255 });
+		}
+	case SceneID::LEVEL5:
+		Engine::GetInstance().map->DrawLayer("Map");
+		if (player != nullptr) {
+			if (heartTexture != nullptr) {
+				float w, h;
+				SDL_GetTextureSize(heartTexture, &w, &h);
+				int startX = 20;
+				int startY = 20;
+				int padding = 10;
+				for (int i = 0; i < player->lives; i++) {
+					float x = (float)(startX + i * (w + padding));
+					float y = (float)startY;
+					SDL_FRect destRect = { x, y, w, h };
+					SDL_RenderTexture(Engine::GetInstance().render->renderer, heartTexture, NULL, &destRect);
+				}
+			}
+			std::string scoreText = "Score: " + std::to_string(player->score);
+			Engine::GetInstance().render->DrawText(scoreText.c_str(), 1100, 30, 0, 0, { 255, 255, 255, 255 });
+
+			std::string timerText = "Time: " + std::to_string((int)levelTimer);
+			Engine::GetInstance().render->DrawText(timerText.c_str(), 1100, 70, 0, 0, { 255, 255, 255, 255 });
+		}
 	case SceneID::GAME_OVER:
 		if (loseTexture != nullptr) {
 			SDL_Rect sourceRect = loseAnimSet.GetCurrentFrame();
