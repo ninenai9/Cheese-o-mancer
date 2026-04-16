@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<tileset version="1.2" tiledversion="1.3.1" name="spritesheet_test" tilewidth="256" tileheight="384" tilecount="10" columns="10">
- <image source="spritesheet_test.png" width="2580" height="386"/>
+<tileset version="1.10" tiledversion="1.11.2" name="j_ballroll" tilewidth="512" tileheight="512" tilecount="10" columns="10">
+ <image source="j_ballroll.png" width="5120" height="512"/>
  <tile id="0">
   <properties>
    <property name="loop" type="bool" value="true"/>
-   <property name="name" value="jump"/>
+   <property name="name" value="ballroll"/>
   </properties>
   <animation>
    <frame tileid="0" duration="100"/>
