@@ -123,6 +123,8 @@ PhysBody* Physics::CreateCircle(int x, int y, int radious, bodyType type)
     PhysBody* pbody = new PhysBody();
     pbody->body = b;
     b2Body_SetUserData(b, ToUserData(pbody));
+    auto shapeCount = b2Body_GetShapeCount(b);
+    LOG("Shapes: %d", shapeCount);
     return pbody;
 }
 

@@ -6,6 +6,7 @@
 enum class EntityType
 {
 	PLAYER,
+	CHEESEBALL,
 	ITEM,
 	UNKNOWN,
 	ENEMY,

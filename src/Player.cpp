@@ -18,6 +18,7 @@
 #include "Protection.h"
 #include "Scene.h"
 #include "Window.h"
+#include "CheeseBall.h"
 
 // Variables estaticas del jugador
 int Player::score = 0;
@@ -124,6 +125,7 @@ bool Player::Update(float dt)
 		Attack();
 		HandleAttack();
 		Jump();
+		SpawnCheeseBall();
 		ChangeCurrentAnimation();
 		ApplyPhysics();
 	}
@@ -809,4 +811,19 @@ void Player::UpdateAttackHitbox()
 		x + offsetX,
 		y + offsetAttackHitboxY
 	);
+}
+
+void Player::SpawnCheeseBall()
+{
+	if (Engine::GetInstance().input->GetKey(SDL_SCANCODE_C) == KEY_DOWN) {
+		auto entity =
+			Engine::GetInstance().entityManager->CreateEntity(EntityType::CHEESEBALL);
+
+		auto cb = std::static_pointer_cast<CheeseBall>(entity);
+
+		Vector2D spawnPos = position;
+
+		cb->SetPosition(spawnPos);
+		cb->Start();
+	}
 }

@@ -49,6 +49,8 @@ public:
 
 	void UpdateAttackHitbox();
 
+	void SpawnCheeseBall();
+
 private:
 
 	void GetPhysicsValues();
