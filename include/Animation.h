@@ -18,6 +18,7 @@ public:
     bool HasFinishedOnce() const;
     void Update(float dt);
     const SDL_Rect& GetCurrentFrame() const;
+    bool IsAtLastFrame() const;
     int GetFrameCount() const;
 
 private:
@@ -45,6 +46,8 @@ public:
     const std::string& GetCurrentName() const;
 
     bool Has(const std::string& name) const;
+
+    bool HasFinished() const;
 
 private:
     int tileW_ = 0, tileH_ = 0, columns_ = 0;

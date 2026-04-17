@@ -109,6 +109,7 @@ bool Player::Update(float dt)
 		GetPhysicsValues();
 		Move();
 		Attack();
+		HandleAttack();
 		Jump();
 		ChangeCurrentAnimation();
 		ApplyPhysics();
@@ -747,6 +748,73 @@ void Player::ChangeCurrentAnimation() {
 
 void Player::Attack() {
 	if (Engine::GetInstance().input->GetMouseButtonDown(1)) {
+		bufferedAttack = true;
+		bufferStart = SDL_GetTicks();
+		attackRequested = true;
+		LOG("Attack requested (mouse click)");
+	}
+}
+
+void Player::HandleAttack() {
+
+	const float comboResetTimeMs = 800; // tiempo sin input para resetear combo
+	static Uint32 lastAttackTime = 0;
+
+	Uint32 now = SDL_GetTicks();
+
+	if (attackRequested && !isAttacking) {
+
+		attackRequested = false;
+
+		
+		if (now - lastAttackTime > comboResetTimeMs) {
+			attackCombo = 0;
+			LOG("Combo expired by time -> reset");
+		}
+
+	
+		if (attackCombo == 0 || currentAnimSet.HasFinished()) {
+			attackCombo++;
+			if (attackCombo > 3) attackCombo = 1;
+
+			LOG("Combo advanced -> %d", attackCombo);
+		}
+
+		// iniciar ataque
+		isAttacking = true;
 		state = ATTACKING;
+		lastAttackTime = now;
+
+		switch (attackCombo)
+		{
+		case 1:
+			currentAnimSet.SetCurrent("attack1");
+			break;
+		case 2:
+			currentAnimSet.SetCurrent("attack2");
+			break;
+		case 3:
+			currentAnimSet.SetCurrent("attack3");
+			break;
+		}
+
+		LOG("Start attack -> combo %d", attackCombo);
+		return;
+	}
+
+	if (isAttacking) {
+
+		if (currentAnimSet.HasFinished()) {
+			isAttacking = false;
+			LOG("Attack animation finished");
+		}
+	}
+
+	if (!isAttacking && attackCombo > 0) {
+
+		if (now - lastAttackTime > comboResetTimeMs) {
+			attackCombo = 0;
+			LOG("Combo reset (timeout)");
+		}
 	}
 }

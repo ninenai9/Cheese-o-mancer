@@ -42,6 +42,8 @@ public:
 	static bool IsPlayerProtected;
 	void Attack();
 
+	void HandleAttack();
+
 private:
 
 	void GetPhysicsValues();
@@ -115,4 +117,11 @@ private:
 	SDL_Texture* texture4x4 = NULL;
 	SDL_Texture* texture5x5 = NULL;
 	std::string currentAnimName;
+
+	int attackCombo = 0;
+	bool attackRequested = false;
+	bool isAttacking = false;
+	bool bufferedAttack = false;
+	Uint32 bufferTime = 200; // ms
+	Uint32 bufferStart = 0;
 };
