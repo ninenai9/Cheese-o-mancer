@@ -114,6 +114,7 @@ bool Player::Start() {
 
 bool Player::Update(float dt)
 {
+
 	bool isPaused = Engine::GetInstance().scene->isPaused;
 	const SDL_Rect& animFrame = currentAnimSet->GetCurrentFrame();
 	if (!isPaused) {
@@ -121,10 +122,28 @@ bool Player::Update(float dt)
 			Reset();
 		}
 		GetPhysicsValues();
-		Move();
+		if (isMounted && mountedBall)
+		{
+			int bx, by;
+			mountedBall->pbody->GetPosition(bx, by);
+
+			position.setX(bx);
+			position.setY(by - mountedBall->radius - texH/2);
+			pbody->SetPosition(bx, by - mountedBall->radius - texH/2);
+
+			HandleMountedMovement(); 
+		}
+		else
+		{
+			Move();
+			Jump();
+		}
+		if (isMounted && Engine::GetInstance().input->GetKey(SDL_SCANCODE_T) == KEY_DOWN)
+		{
+			DismountAndLaunch();
+		}
 		Attack();
 		HandleAttack();
-		Jump();
 		SpawnCheeseBall();
 		ChangeCurrentAnimation();
 		ApplyPhysics();
@@ -353,6 +372,7 @@ void Player::Jump() {
 }
 
 void Player::ApplyPhysics() {
+	if (isMounted) return;
 	// Preserve vertical speed while jumping
 	if (isJumping == true) {
 		velocity.y = Engine::GetInstance().physics->GetYVelocity(pbody);
@@ -376,10 +396,16 @@ void Player::Draw(float dt) {
 	const SDL_Rect& animFrame = currentAnimSet->GetCurrentFrame();
 
 	int x, y;
-	pbody->GetPosition(x, y);
 
-	position.setX((float)x);
-	position.setY((float)y);
+	if (isMounted && mountedBall)
+	{
+		x = (int)position.getX();
+		y = (int)position.getY();
+	}
+	else
+	{
+		pbody->GetPosition(x, y);
+	}
 
 	SDL_FlipMode flip = facingLeft ? SDL_FLIP_HORIZONTAL : SDL_FLIP_NONE;
 
@@ -407,6 +433,9 @@ void Player::CameraRender() {
 	float limitRight = mapSize.getX() - Engine::GetInstance().render->camera.w;
 	int windowX;
 	int windowY;
+	int px, py;
+	pbody->GetPosition(px, py);
+
 	Engine::GetInstance().window->GetWindowSize(windowX, windowY);
 	if (Engine::GetInstance().input->GetKey(SDL_SCANCODE_F10) == KEY_DOWN) {
 		godMode = !godMode;
@@ -414,25 +443,25 @@ void Player::CameraRender() {
 		else { b2Body_SetGravityScale(pbody->body, 1); }
 	}
 
-	if (position.getX() < Engine::GetInstance().render->camera.w / 4) {
+	if (px < Engine::GetInstance().render->camera.w / 4) {
 		Engine::GetInstance().render->camera.x = limitLeft;
 	}
-	else if (position.getX() > mapSize.getX() - Engine::GetInstance().render->camera.w / 4) {
+	else if (px > mapSize.getX() - Engine::GetInstance().render->camera.w / 4) {
 		Engine::GetInstance().render->camera.x = 3 * Engine::GetInstance().render->camera.w / 4 - mapSize.getX();
 	}
-	else { Engine::GetInstance().render->camera.x = (int)(-position.getX() + windowX * 1.5); }
+	else { Engine::GetInstance().render->camera.x = (int)(-px + windowX * 1.5); }
 
 	float limitUp = Engine::GetInstance().render->camera.h / 4;
 	float limitDown = (3 * Engine::GetInstance().render->camera.h / 4) - mapSize.getY();
 
-	if (position.getY() < Engine::GetInstance().render->camera.h / 4) {
+	if (py < Engine::GetInstance().render->camera.h / 4) {
 		Engine::GetInstance().render->camera.y = limitUp;
 	}
-	else if (position.getY() > mapSize.getY() - Engine::GetInstance().render->camera.h / 4) {
+	else if (py > mapSize.getY() - Engine::GetInstance().render->camera.h / 4) {
 		int x = 9;
 		Engine::GetInstance().render->camera.y = limitDown;
 	}
-	else { Engine::GetInstance().render->camera.y = (int)(-position.getY() + windowY * 1.5); }
+	else { Engine::GetInstance().render->camera.y = (int)(-py + windowY * 1.5); }
 }
 
 // =====================
@@ -475,12 +504,18 @@ void Player::OnCollision(PhysBody* physA, PhysBody* physB)
 		isJumping = false;
 		firstJump = true;
 		isCollidedFloor = true;
+		if (isMounted) {
+			DismountAndLaunch();
+		}
 		break;
 	}
 
 	case ColliderType::PARED:
 	{
 		isCollidedWall = true;
+		if (isMounted) {
+			DismountAndLaunch();
+		}
 		break;
 	}
 
@@ -629,9 +664,6 @@ void Player::Reset()
 	
 }
 
-// L08 TODO 6: Define OnCollision function for the player. 
-
-
 bool Player::isDead()
 {
 	return isdead;
@@ -688,6 +720,10 @@ void Player::ChangeCurrentAnimation() {
 		break;
 	}
 }
+
+// =====================
+// ATAQUES
+// =====================
 
 void Player::Attack() {
 	static bool wasPressedLastFrame = false;
@@ -813,17 +849,100 @@ void Player::UpdateAttackHitbox()
 	);
 }
 
+// =====================
+// CHEESEBALL
+// =====================
+
 void Player::SpawnCheeseBall()
 {
-	if (Engine::GetInstance().input->GetKey(SDL_SCANCODE_C) == KEY_DOWN) {
+	if (Engine::GetInstance().input->GetKey(SDL_SCANCODE_C) == KEY_DOWN && !isMounted) {
+
 		auto entity =
 			Engine::GetInstance().entityManager->CreateEntity(EntityType::CHEESEBALL);
 
-		auto cb = std::static_pointer_cast<CheeseBall>(entity);
+		auto cb = std::dynamic_pointer_cast<CheeseBall>(entity);
 
-		Vector2D spawnPos = position;
+		if (!cb) {
+			LOG("Error: CheeseBall cast failed");
+			return;
+		}
+
+		Vector2D spawnPos;
+		int px, py;
+		pbody->GetPosition(px, py);
+
+		spawnPos.setX(px);
+		spawnPos.setY(py + texH / 2 + cb->radius - 200);
 
 		cb->SetPosition(spawnPos);
 		cb->Start();
+
+		// colocar player encima
+		int bx, by;
+		cb->pbody->GetPosition(bx, by);
+		SetPosition(Vector2D(bx, by - cb->radius - texH/2));
+
+		mountedBall = cb;
+		isMounted = true;
+		state = ONCHEESE;
+
+		Engine::GetInstance().physics->SetLinearVelocity(pbody, { 0,0 });
+		//pbody->body->SetEnabled(false);
 	}
+}
+
+void Player::HandleMountedMovement()
+{
+	float speed = 10.0f;
+
+	b2Vec2 vel = b2Body_GetLinearVelocity(mountedBall->pbody->body);
+
+	if (Engine::GetInstance().input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT)
+		vel.x = -speed;
+
+	if (Engine::GetInstance().input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT)
+		vel.x = speed;
+
+	mountedBall->SetVelocityy(vel);
+
+	if (Engine::GetInstance().input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN)
+	{
+		Engine::GetInstance().physics->ApplyLinearImpulseToCenter(
+			mountedBall->pbody,
+			0.0f,
+			-jumpForce,
+			true
+		);
+
+		b2Body_SetAwake(mountedBall->pbody->body, true);
+	}
+}
+
+void Player::DismountAndLaunch()
+{
+	if (!isMounted || !mountedBall) return;
+
+	// Reactivar player
+	//pbody->body->SetEnabled(true);
+
+	// Posicionar player ligeramente arriba
+	int x, y;
+	mountedBall->pbody->GetPosition(x, y);
+	SetPosition(Vector2D(x, y - mountedBall->radius - texH));
+
+	// Lanzar bola en parábola
+	float forceX = facingLeft ? -2000.0f : 2000.0f;
+	float forceY = -6.0f;
+
+	Engine::GetInstance().physics->ApplyLinearImpulseToCenter(
+		mountedBall->pbody,
+		forceX,
+		forceY,
+		true
+	);
+
+	// romper vínculo
+	mountedBall = nullptr;
+	isMounted = false;
+	state = DEFAULT;
 }

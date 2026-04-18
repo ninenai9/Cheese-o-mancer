@@ -25,10 +25,10 @@ bool CheeseBall::Start()
 {
     texture = Engine::GetInstance().textures->Load("assets/textures/cheeseball.png");
 
-    body = Engine::GetInstance().physics->CreateCircle(position.getX(), position.getY(), radius, bodyType::DYNAMIC);
+    pbody = Engine::GetInstance().physics->CreateCircle(position.getX(), position.getY(), radius, bodyType::DYNAMIC);
 
-    body->listener = this;
-    body->ctype = ColliderType::CHEESEBALL;
+    pbody->listener = this;
+    pbody->ctype = ColliderType::CHEESEBALL;
 
     LOG("CheeseBall created");
 
@@ -40,7 +40,7 @@ bool CheeseBall::Update(float dt)
     if (toDelete) return true;
 
     int x, y;
-    body->GetPosition(x, y);
+    pbody->GetPosition(x, y);
 
     position.setX((float)x);
     position.setY((float)y);
@@ -72,10 +72,10 @@ bool CheeseBall::CleanUp()
 {
     LOG("Cleaning CheeseBall");
 
-    if (body)
+    if (pbody)
     {
-        Engine::GetInstance().physics->DeletePhysBody(body);
-        body = nullptr;
+        Engine::GetInstance().physics->DeletePhysBody(pbody);
+        pbody = nullptr;
     }
 
     Engine::GetInstance().textures->UnLoad(texture);
@@ -87,8 +87,13 @@ void CheeseBall::SetPosition(const Vector2D& pos)
 {
     position = pos;
 
-    if (body)
+    if (pbody)
     {
-        body->SetPosition(pos.getX(), pos.getY());
+        pbody->SetPosition(pos.getX(), pos.getY());
     }
+}
+
+void CheeseBall::SetVelocityy(b2Vec2 vel)
+{
+    Engine::GetInstance().physics->SetLinearVelocity(pbody, vel);
 }

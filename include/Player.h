@@ -5,6 +5,7 @@
 #include <box2d/box2d.h>
 #include <SDL3/SDL.h>
 #include "FireBall.h"
+#include "CheeseBall.h"
 
 enum PlayerState {
 	JUMPING,
@@ -50,6 +51,10 @@ public:
 	void UpdateAttackHitbox();
 
 	void SpawnCheeseBall();
+
+	void HandleMountedMovement();
+
+	void DismountAndLaunch();
 
 private:
 
@@ -148,4 +153,8 @@ private:
 	// offset respecto al player
 	int offsetAttackHitboxX = 160;
 	int offsetAttackHitboxY = -50;
+
+	std::shared_ptr<CheeseBall> mountedBall = nullptr;
+	bool isMounted = false;
+	int spawnOffset = 30;
 };

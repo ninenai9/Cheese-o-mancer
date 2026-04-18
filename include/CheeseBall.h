@@ -2,6 +2,7 @@
 
 #include "Entity.h"
 #include "Vector2D.h"
+#include "box2d/box2d.h"
 
 class CheeseBall : public Entity
 {
@@ -19,12 +20,15 @@ public:
 
     void SetPosition(const Vector2D& pos);
 
+    void SetVelocityy(b2Vec2 vel);
+    PhysBody* pbody = nullptr;
+    float radius = 128.0f;
 private:
-    PhysBody* body = nullptr;
+    
 
     Vector2D position;
 
-    float radius = 128.0f;
+    
 
     SDL_Texture* texture = NULL;
 

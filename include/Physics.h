@@ -66,7 +66,7 @@ public:
 class Physics : public Module
 {
 public:
-
+    b2WorldId world;
     // Constructors & Destructors
     Physics();
     ~Physics();
@@ -127,9 +127,6 @@ private:
 
     // Debug mode
     bool debug;
-
-    // Box2D World (id instead of pointer)
-    b2WorldId world;
 
     // List of physics bodies
     std::list<PhysBody*> bodiesToDelete;
