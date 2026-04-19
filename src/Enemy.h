@@ -15,7 +15,7 @@ public:
 	Enemy();
 	virtual ~Enemy();
 	bool Awake();
-	bool Start();
+	virtual bool Start();
 	virtual bool Update(float dt);
 	bool CleanUp();
 	virtual void OnCollision(PhysBody* physA, PhysBody* physB);
@@ -36,7 +36,7 @@ protected:
 	void GetPhysicsValues();
 	virtual void Move();
 	void ApplyPhysics();
-	void Draw(float dt);
+	virtual void Draw(float dt);
 
 public:
 

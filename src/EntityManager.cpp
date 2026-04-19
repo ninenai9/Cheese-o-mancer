@@ -16,6 +16,7 @@
 #include "FinalBoss.h"
 #include "Verdugo.h"
 #include "Rat.h"
+#include "Jailer.h"
 #include "CheeseBall.h"
 
 EntityManager::EntityManager() : Module()
@@ -116,6 +117,9 @@ std::shared_ptr<Entity> EntityManager::CreateEntity(EntityType type)
 		break;
 	case EntityType::VERDUGO:
 		entity = std::make_shared<Verdugo>();
+		break;
+	case EntityType::JAILER:
+		entity = std::make_shared<Jailer>();
 		break;
 	case EntityType::RAT:
 		entity = std::make_shared<Rat>();

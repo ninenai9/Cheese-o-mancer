@@ -18,6 +18,7 @@
 #include "Scene.h"
 #include "Verdugo.h"
 #include "Rat.h"
+#include "Jailer.h"
 #include "HANDMAN.h"
 
 Map::Map() : Module(), mapLoaded(false)
@@ -538,6 +539,16 @@ MapLayer* Map::GetNavigationLayer() {
                         enemy->yInicial = (int)y;*/
                         rat->Start();
                         rat->mapID = id;
+
+                    }
+                    else if (entityType == "Jailer") {
+                        std::shared_ptr<Jailer> jailer = std::dynamic_pointer_cast<Jailer>(Engine::GetInstance().entityManager->CreateEntity(EntityType::JAILER));
+
+                        jailer->position = Vector2D(x, y);
+                        /*enemy->xInicial = (int)x;
+                        enemy->yInicial = (int)y;*/
+                        jailer->Start();
+                        jailer->mapID = id;
 
                     }
                     else if (entityType == "Handman") {

@@ -708,7 +708,7 @@ void Scene::LoadLevel1() {
 	Engine::GetInstance().audio->PlayMusic("Assets/Audio/Music/PREV/soundtrack.wav");
 
 	// Load Map
-	Engine::GetInstance().map->Load("Assets/Maps/", "TEST_map_LV1_startRoom_01.tmx");//"TEST_map_LV1_towerCenter_01.tmx"
+	Engine::GetInstance().map->Load("Assets/Maps/", "TEST_map_LV1_bossRoom_01.tmx");//"TEST_map_LV1_towerCenter_01.tmx"
 																					  //"TEST_map_LV1_pantryRoom_01.tmx"
 
 	// Load Entities from map
